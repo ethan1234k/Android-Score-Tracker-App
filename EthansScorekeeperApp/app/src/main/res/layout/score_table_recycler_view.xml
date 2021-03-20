@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <LinearLayout
+        android:id="@+id/playerNames"
+        android:layout_width="match_parent"
+        android:layout_height="50dp">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:text="Player 1"
+            android:textAlignment="center"
+            tools:ignore="RtlCompat" />
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:text="Player 2"
+            android:textAlignment="center"
+            tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/recyclerViewLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="75dp"
+        android:layout_marginBottom="125dp">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerView"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:scrollbars="vertical" >
+        </androidx.recyclerview.widget.RecyclerView>
+
+    </LinearLayout>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:layout_above="@+id/totalScores"
+        android:text="Calculate"
+        android:background="@color/red"
+        android:layout_marginBottom="12dp"
+        android:onClick="onCalculateClick" />
+
+    <LinearLayout
+        android:id="@+id/totalScores"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_alignParentBottom="true">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="match_parent"
+            android:text="Total"
+            android:textColor="@color/red"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/totalScoreLeft"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:text="Total 1"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            tools:ignore="RtlCompat" />
+
+        <TextView
+            android:id="@+id/totalScoreRight"
+            android:layout_width="0dp"
+            android:layout_weight="2"
+            android:layout_height="match_parent"
+            android:text="Total 2"
+            android:textStyle="bold"
+            android:inputType="text"
+            android:textAlignment="center"
+            android:gravity="center_vertical"
+            tools:ignore="RtlCompat" />
+
+    </LinearLayout>
+
+</RelativeLayout>
