@@ -18,6 +18,7 @@ import org.w3c.dom.Text;
 import java.util.ArrayList;
 import java.util.List;
 
+// comments
 public class MainActivity extends AppCompatActivity {
 
     int numWelcomeButtonClicks = 0;
