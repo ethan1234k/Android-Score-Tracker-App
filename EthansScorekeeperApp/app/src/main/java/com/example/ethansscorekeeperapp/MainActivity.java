@@ -1,7 +1,6 @@
 package com.example.ethansscorekeeperapp;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,8 +11,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -36,33 +33,60 @@ public class MainActivity extends AppCompatActivity {
     int leftScore = 0;
     int rightScore = 0;
 
+    RecyclerViewAdapter myAdapter;
+    RecyclerView myRecyclerView;
+
+    Game game = new Game();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         //setContentView(R.layout.welcome_screen);
 
+
+        EditText playerOneName = findViewById(R.id.playerOneName);
+        game.setPlayerNameOne(String.valueOf(playerOneName.getText()));
+        EditText playerTwoName = findViewById(R.id.playerTwoName);
+        game.setPlayerNameTwo(String.valueOf(playerTwoName.getText()));
+        game.setRoundList(roundList);
+
+        playerOneName.addTextChangedListener(new myTextWatcher(1));
+        playerOneName.addTextChangedListener(new myTextWatcher(2));
+
+
         //TODO TESTING HERE
         setContentView(R.layout.score_table_recycler_view);
 
-        roundList.add(new Round("Round 1",1, 2));
-        roundList.add(new Round("Round 2", 7, 3));
-        roundList.add(new Round("Round 3", 4, 0));
-        roundList.add(new Round("Round 4", 2, 5));
-        roundList.add(new Round("Round 5", 6, 1));
-        roundList.add(new Round("Round 6", 2, 4));
-        roundList.add(new Round("Round 1",1, 4));
-        roundList.add(new Round("Round 2", 7, 3));
-        roundList.add(new Round("Round 3", 4, 0));
-        roundList.add(new Round("Round 4", 2, 5));
-        roundList.add(new Round("Round 5", 6, 1));
-        roundList.add(new Round("Round 6", 2, 4));
+        roundList.add(new Round("Round 1",0, 0));
 
+        /*
+        roundList.add(new Round("Round 2", 7, 3));
+        roundList.add(new Round("Round 3", 4, 0));
+        roundList.add(new Round("Round 4", 2, 5));
+        roundList.add(new Round("Round 5", 6, 1));
+        roundList.add(new Round("Round 6", 2, 4));
+        roundList.add(new Round("Round 7",1, 4));
+        roundList.add(new Round("Round 8", 7, 3));
+        roundList.add(new Round("Round 9", 4, 0));
+        roundList.add(new Round("Round 10", 2, 5));
+        roundList.add(new Round("Round 11", 6, 1));
+        roundList.add(new Round("Round 12", 2, 4));
+         */
+
+        myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapter = new RecyclerViewAdapter(this, roundList);
+        //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        myRecyclerView.setAdapter(myAdapter);
+
+        /*
         RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(this, roundList);
         //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         myRecyclerView.setAdapter(myAdapter);
+         */
 
 
 
@@ -73,6 +97,22 @@ public class MainActivity extends AppCompatActivity {
         //txtAppDescription.setText("Welcome to the Universal Scorekeep app. You can use this app to keep track of anything you desire.");
 
     }
+
+    public void onAddRowClick(View view) {
+        String lastRound = roundList.get(roundList.size() - 1).roundNum;
+        int lastRoundNum = Integer.parseInt(lastRound.substring(6));
+        lastRoundNum++;
+        String currentRound = "Round " + lastRoundNum;
+
+        roundList.add(new Round(currentRound, 0, 0));
+        rvAdapterUpdate(myAdapter, myRecyclerView);
+    }
+
+    public void rvAdapterUpdate(RecyclerViewAdapter myAdapter, RecyclerView myRecyclerView) {
+        myRecyclerView.setAdapter(myAdapter);
+    }
+
+
 
     public void onCalculateClick(View view) {
         leftScore = getLeftTotalScore(roundList);
@@ -111,9 +151,14 @@ public class MainActivity extends AppCompatActivity {
         totalRight.setText(String.valueOf(rightScore));
     }
 
-    //TODO end of new code with recycler view
 
-    TextWatcher textWatcher = new TextWatcher() {
+    public class myTextWatcher implements TextWatcher {
+
+        int playerNum;
+
+        public myTextWatcher(int playerNum) {
+            this.playerNum = playerNum;
+        }
 
         @Override
         public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -122,14 +167,33 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void onTextChanged(CharSequence s, int start, int before, int count) {
-            setTotalScores();
+
         }
 
         @Override
         public void afterTextChanged(Editable s) {
-
+            if ( playerNum < 0 ) {
+                return;
+            }
+            if (playerNum == 1) {
+                game.setPlayerNameOne(String.valueOf(s));
+            }
+            if (playerNum == 2) {
+                game.setPlayerNameTwo(String.valueOf(s));
+            }
         }
-    };
+    }
+
+    //TODO end of new code with recycler view
+
+
+
+
+
+
+
+
+
 
     public void onBtnClick (View view) {
         if (numWelcomeButtonClicks == 0) {
@@ -163,12 +227,12 @@ public class MainActivity extends AppCompatActivity {
             TextView txtRoundTwo = findViewById(R.id.roundTwo);
             txtRoundTwo.setText("Round 2");
 
-            setEditTexts();
+            //setEditTexts();
 
         }
     }
 
-
+    /*
     public void setEditTexts() {
         EditText edtTxtLeftScoreOne = findViewById(R.id.leftScoreOne);
         EditText edtTxtLeftScoreTwo = findViewById(R.id.leftScoreTwo);
@@ -180,7 +244,7 @@ public class MainActivity extends AppCompatActivity {
         edtTxtRightScoreOne.addTextChangedListener(textWatcher);
         edtTxtRightScoreTwo.addTextChangedListener(textWatcher);
 
-    }
+    } */
 
     public void setTotalScores() {
         EditText edtTxtLeftScoreOne = findViewById(R.id.leftScoreOne);

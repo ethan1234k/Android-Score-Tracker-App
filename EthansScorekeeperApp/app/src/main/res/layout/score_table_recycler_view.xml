@@ -17,6 +17,7 @@
             android:layout_height="match_parent" />
 
         <EditText
+            android:id="@+id/playerOneName"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
@@ -25,6 +26,7 @@
             tools:ignore="RtlCompat" />
 
         <EditText
+            android:id="@+id/playerTwoName"
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
@@ -50,14 +52,36 @@
 
     </LinearLayout>
 
-    <Button
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="50dp"
         android:layout_above="@+id/totalScores"
-        android:text="Calculate"
-        android:background="@color/red"
-        android:layout_marginBottom="12dp"
-        android:onClick="onCalculateClick" />
+        android:layout_marginBottom="12dp" >
+
+        <Button
+            android:id="@+id/calculateButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="Calculate"
+            android:background="@color/red"
+            android:onClick="onCalculateClick" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp" />
+
+        <Button
+            android:id="@+id/addRowButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="Add Row"
+            android:background="@color/red"
+            android:onClick="onAddRowClick" />
+
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/totalScores"

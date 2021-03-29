@@ -45,6 +45,7 @@
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
 
+
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

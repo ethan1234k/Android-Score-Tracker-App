@@ -1,6 +1,8 @@
 package com.example.ethansscorekeeperapp;
 
 import android.content.Context;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,8 +24,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         this.mData = mData;
     }
 
-
-
     @NonNull
     @Override
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -36,10 +36,10 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        holder.SetRow(position);
         holder.roundNum.setText(mData.get(position).getRoundNum());
         holder.moveScoreOne.setText(mData.get(position).getFirstScoreText());
         holder.moveScoreTwo.setText(mData.get(position).getSecondScoreText());
-
 
     }
 
@@ -48,12 +48,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         return mData.size();
     }
 
-    public static class MyViewHolder extends RecyclerView.ViewHolder {
+    public class MyViewHolder extends RecyclerView.ViewHolder {
 
+        int row;
         TextView roundNum;
         EditText moveScoreOne;
         EditText moveScoreTwo;
-
 
         public MyViewHolder(View itemView) {
             super(itemView);
@@ -61,7 +61,50 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             roundNum = (TextView) itemView.findViewById(R.id.round_id);
             moveScoreOne = (EditText) itemView.findViewById(R.id.moveOne_id);
             moveScoreTwo = (EditText) itemView.findViewById(R.id.moveTwo_id);
+        }
 
+        public void SetRow(int r)
+        {
+            this.row = r;
+            moveScoreOne.addTextChangedListener(new MyTextWatcher(row,1));
+            moveScoreTwo.addTextChangedListener(new MyTextWatcher(row,2));
+        }
+
+    }
+
+    public class MyTextWatcher implements TextWatcher
+    {
+        int round;
+        int playerNum;
+
+        public MyTextWatcher(int round, int num)
+        {
+            this.round = round;
+            this.playerNum = num;
+        }
+
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+        }
+
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+            if ( round < 0 ) {
+                return;
+            }
+            Round r = mData.get(round);
+            if ( playerNum == 1 ) {
+                r.setScoreOne(s.toString());
+            }
+            if ( playerNum == 2 ) {
+                r.setScoreTwo(s.toString());
+            }
         }
 
     }

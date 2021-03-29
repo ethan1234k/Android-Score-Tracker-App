@@ -14,11 +14,44 @@ public class Round {
     }
 
 
-    public void setScore(String roundNum, int scoreOne, int scoreTwo) {
-        this.roundNum = roundNum;
+    public void setScore(int scoreOne, int scoreTwo) {
         this.scoreOne = scoreOne;
         this.scoreTwo = scoreTwo;
+    }
 
+    public void setScore(String oneText, String twoText)
+    {
+        try {
+            this.scoreOne = Integer.parseInt(oneText);
+        } catch (Exception e) {
+            // when it's not a number, set to 0
+            this.scoreOne = 0;
+        }
+
+        try {
+            this.scoreTwo = Integer.parseInt(twoText);
+        } catch (Exception e) {
+            // when it's not a number, set to 0
+            this.scoreTwo = 0;
+        }
+    }
+
+    public void setScoreOne(String scoreOne) {
+        try {
+            this.scoreOne = Integer.parseInt(scoreOne);
+        } catch (Exception e) {
+            // when it's not a number, set it to 0
+            this.scoreOne = 0;
+        }
+    }
+
+    public void setScoreTwo(String scoreTwo) {
+        try {
+            this.scoreTwo = Integer.parseInt(scoreTwo);
+        } catch (Exception e) {
+            // when it's not a number, set it to 0
+            this.scoreTwo = 0;
+        }
     }
 
     public String getRoundNum() {
