@@ -7,6 +7,8 @@ import java.util.List;
 
 public class Game {
 
+    int numPlayers;
+    List<String> playerNameList = new ArrayList<>();
     String playerNameOne;
     String playerNameTwo;
     List<Round> roundList = new ArrayList<>();
@@ -20,6 +22,14 @@ public class Game {
         this.playerNameTwo = playerNameOne;
     }
 
+    public int getNumPlayers() {
+        return numPlayers;
+    }
+
+    public List<String> getPlayerNameList() {
+        return playerNameList;
+    }
+
     public String getPlayerNameOne() {
         return playerNameOne;
     }
@@ -30,6 +40,14 @@ public class Game {
 
     public List<Round> getRoundList() {
         return roundList;
+    }
+
+    public void setNumPlayers(int numPlayers) {
+        this.numPlayers = numPlayers;
+    }
+
+    public void setPlayerNameList(List<String> playerNameList) {
+        this.playerNameList = playerNameList;
     }
 
     public void setPlayerNameOne(String playerNameOne) {

@@ -36,6 +36,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
 
+        holder.setIsRecyclable(false);
         holder.SetRow(position);
         holder.roundNum.setText(mData.get(position).getRoundNum());
         holder.moveScoreOne.setText(mData.get(position).getFirstScoreText());
@@ -101,6 +102,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             Round r = mData.get(round);
             if ( playerNum == 1 ) {
                 r.setScoreOne(s.toString());
+
             }
             if ( playerNum == 2 ) {
                 r.setScoreTwo(s.toString());

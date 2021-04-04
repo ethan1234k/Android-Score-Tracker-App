@@ -30,6 +30,8 @@ public class MainActivity extends AppCompatActivity {
 
     //Actual variables and updated code
     List<Round> roundList = new ArrayList<>();
+    List<String> playerNameList = new ArrayList<>();
+
     int leftScore = 0;
     int rightScore = 0;
 
@@ -39,26 +41,19 @@ public class MainActivity extends AppCompatActivity {
     Game game = new Game();
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        //setContentView(R.layout.welcome_screen);
-
-
-        EditText playerOneName = findViewById(R.id.playerOneName);
-        game.setPlayerNameOne(String.valueOf(playerOneName.getText()));
-        EditText playerTwoName = findViewById(R.id.playerTwoName);
-        game.setPlayerNameTwo(String.valueOf(playerTwoName.getText()));
-        game.setRoundList(roundList);
-
-        playerOneName.addTextChangedListener(new myTextWatcher(1));
-        playerOneName.addTextChangedListener(new myTextWatcher(2));
-
 
         //TODO TESTING HERE
-        setContentView(R.layout.score_table_recycler_view);
+        setContentView(R.layout.home_screen);
+        //setContentView(R.layout.score_table_recycler_view);
+
+
 
         roundList.add(new Round("Round 1",0, 0));
+        game.setRoundList(roundList);
 
         /*
         roundList.add(new Round("Round 2", 7, 3));
@@ -74,11 +69,7 @@ public class MainActivity extends AppCompatActivity {
         roundList.add(new Round("Round 12", 2, 4));
          */
 
-        myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapter = new RecyclerViewAdapter(this, roundList);
-        //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        myRecyclerView.setAdapter(myAdapter);
+
 
         /*
         RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
@@ -98,6 +89,59 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    public void onNewGameClick(View view) {
+        setContentView(R.layout.set_player_num);
+    }
+
+    public void onTwoPlayerClick(View view) {
+        setContentView(R.layout.score_table_recycler_view);
+        game.setNumPlayers(2);
+        playerNameList.add("Player 1");
+        playerNameList.add("Player 2");
+        game.setPlayerNameList(playerNameList);
+        setRecyclerViewLayout();
+    }
+
+    public void onThreePlayerClick(View view) {
+        setContentView(R.layout.score_table_recycler_view);
+        game.setNumPlayers(3);
+        playerNameList.add("Player 1");
+        playerNameList.add("Player 2");
+        playerNameList.add("Player 3");
+        game.setPlayerNameList(playerNameList);
+        setRecyclerViewLayout();
+    }
+
+    public void onFourPlayerClick(View view) {
+        setContentView(R.layout.score_table_recycler_view);
+        game.setNumPlayers(4);
+        playerNameList.add("Player 1");
+        playerNameList.add("Player 2");
+        playerNameList.add("Player 3");
+        playerNameList.add("Player 4");
+        game.setPlayerNameList(playerNameList);
+        setRecyclerViewLayout();
+    }
+
+    //TODO Change all the edit texts and setting for multiple players
+    public void setRecyclerViewLayout() {
+        myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
+        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myAdapter = new RecyclerViewAdapter(this, roundList);
+        //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
+        myRecyclerView.setAdapter(myAdapter);
+
+        EditText playerOneName = findViewById(R.id.playerOneName);
+        game.setPlayerNameOne(String.valueOf(playerOneName.getText()));
+        EditText playerTwoName = findViewById(R.id.playerTwoName);
+        game.setPlayerNameTwo(String.valueOf(playerTwoName.getText()));
+        game.setRoundList(roundList);
+
+        playerOneName.addTextChangedListener(new myTextWatcher(1));
+        playerTwoName.addTextChangedListener(new myTextWatcher(2));
+    }
+
+    //TODO Change round object to deal with different numbers of players
     public void onAddRowClick(View view) {
         String lastRound = roundList.get(roundList.size() - 1).roundNum;
         int lastRoundNum = Integer.parseInt(lastRound.substring(6));
@@ -105,6 +149,7 @@ public class MainActivity extends AppCompatActivity {
         String currentRound = "Round " + lastRoundNum;
 
         roundList.add(new Round(currentRound, 0, 0));
+        game.setRoundList(roundList);
         rvAdapterUpdate(myAdapter, myRecyclerView);
     }
 
@@ -115,8 +160,8 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void onCalculateClick(View view) {
-        leftScore = getLeftTotalScore(roundList);
-        rightScore = getRightTotalScore(roundList);
+        leftScore = getLeftTotalScore(game.getRoundList());
+        rightScore = getRightTotalScore(game.getRoundList());
         setTotalScores(leftScore, rightScore);
     }
 
@@ -176,10 +221,20 @@ public class MainActivity extends AppCompatActivity {
                 return;
             }
             if (playerNum == 1) {
-                game.setPlayerNameOne(String.valueOf(s));
+                playerNameList.set(0, String.valueOf(s));
+                game.setPlayerNameList(playerNameList);
             }
             if (playerNum == 2) {
-                game.setPlayerNameTwo(String.valueOf(s));
+                playerNameList.set(1, String.valueOf(s));
+                game.setPlayerNameList(playerNameList);
+            }
+            if (playerNum == 3) {
+                playerNameList.set(2, String.valueOf(s));
+                game.setPlayerNameList(playerNameList);
+            }
+            if (playerNum == 4) {
+                playerNameList.set(3, String.valueOf(s));
+                game.setPlayerNameList(playerNameList);
             }
         }
     }
