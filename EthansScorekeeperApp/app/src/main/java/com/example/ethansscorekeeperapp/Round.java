@@ -1,25 +1,25 @@
 package com.example.ethansscorekeeperapp;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Round {
 
     public String roundNum;
-    public int scoreOne;
-    public int scoreTwo;
+    List<Integer> scoreList = new ArrayList<>();
 
-    public Round(String roundNum, Integer scoreOne, Integer scoreTwo){
+
+    public Round(String roundNum, List<Integer> scoreList){
         this.roundNum = roundNum;
-        this.scoreOne = scoreOne;
-        this.scoreTwo = scoreTwo;
+        this.scoreList = scoreList;
+    }
 
+    public void setScore(List<Integer> scoreList) {
+        this.scoreList = scoreList;
     }
 
 
-    public void setScore(int scoreOne, int scoreTwo) {
-        this.scoreOne = scoreOne;
-        this.scoreTwo = scoreTwo;
-    }
-
-    public void setScore(String oneText, String twoText)
+    /*public void setScore(String oneText, String twoText)
     {
         try {
             this.scoreOne = Integer.parseInt(oneText);
@@ -34,45 +34,14 @@ public class Round {
             // when it's not a number, set to 0
             this.scoreTwo = 0;
         }
-    }
-
-    public void setScoreOne(String scoreOne) {
-        try {
-            this.scoreOne = Integer.parseInt(scoreOne);
-        } catch (Exception e) {
-            // when it's not a number, set it to 0
-            this.scoreOne = 0;
-        }
-    }
-
-    public void setScoreTwo(String scoreTwo) {
-        try {
-            this.scoreTwo = Integer.parseInt(scoreTwo);
-        } catch (Exception e) {
-            // when it's not a number, set it to 0
-            this.scoreTwo = 0;
-        }
-    }
-
+    } */
 
     public String getRoundNum() {
         return roundNum;
     }
 
-    public int getFirstScore() {
-        return scoreOne;
-    }
-
-    public int getSecondScore() {
-        return scoreTwo;
-    }
-
-    public String getFirstScoreText() {
-        return String.valueOf(scoreOne);
-    }
-
-    public String getSecondScoreText() {
-        return String.valueOf(scoreTwo);
+    public List<Integer> getScoreList() {
+        return scoreList;
     }
 
 }

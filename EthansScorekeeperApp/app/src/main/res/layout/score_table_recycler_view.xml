@@ -6,7 +6,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <LinearLayout
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/frameLayoutFragmentPlayerNames"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:name="com.example.ExampleFragment" />
+
+    <!--<LinearLayout
         android:id="@+id/playerNames"
         android:layout_width="match_parent"
         android:layout_height="50dp">
@@ -34,7 +41,7 @@
             android:textAlignment="center"
             tools:ignore="RtlCompat" />
 
-    </LinearLayout>
+    </LinearLayout> -->
 
     <LinearLayout
         android:id="@+id/recyclerViewLayout"

@@ -1,9 +1,11 @@
 package com.example.ethansscorekeeperapp;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Fragment;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -31,6 +33,15 @@ public class MainActivity extends AppCompatActivity {
     //Actual variables and updated code
     List<Round> roundList = new ArrayList<>();
     List<String> playerNameList = new ArrayList<>();
+    List<Integer> scoreList = new ArrayList<>();
+
+    FragmentManager fragmentManager = getSupportFragmentManager();
+    fragmentRVTwoPlayer fragmentTwoPlayer = new fragmentRVTwoPlayer();
+    fragmentRVThreePlayer fragmentThreePlayer = new fragmentRVThreePlayer();
+    fragmentRVFourPlayer fragmentFourPlayer = new fragmentRVFourPlayer();
+
+
+
 
     int leftScore = 0;
     int rightScore = 0;
@@ -52,8 +63,8 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-        roundList.add(new Round("Round 1",0, 0));
-        game.setRoundList(roundList);
+        //roundList.add(new Round("Round 1",0, 0));
+        //game.setRoundList(roundList);
 
         /*
         roundList.add(new Round("Round 2", 7, 3));
@@ -99,7 +110,22 @@ public class MainActivity extends AppCompatActivity {
         playerNameList.add("Player 1");
         playerNameList.add("Player 2");
         game.setPlayerNameList(playerNameList);
+        scoreList.add(0);
+        initializeGameTotalScoresList(2);
+
+        List<Integer> initializeRound = new ArrayList<>();
+        for (int i = 0; i < game.getNumPlayers(); i++) {
+            initializeRound.add(0);
+        }
+        roundList.add(new Round("Round 1", initializeRound));
+
         setRecyclerViewLayout();
+        //roundList.add(new Round("Round 1", ))
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentTwoPlayer)
+                .commit();
+
     }
 
     public void onThreePlayerClick(View view) {
@@ -109,7 +135,21 @@ public class MainActivity extends AppCompatActivity {
         playerNameList.add("Player 2");
         playerNameList.add("Player 3");
         game.setPlayerNameList(playerNameList);
+        initializeGameTotalScoresList(3);
+
+        List<Integer> initializeRound = new ArrayList<>();
+        for (int i = 0; i < game.getNumPlayers(); i++) {
+            initializeRound.add(0);
+        }
+        roundList.add(new Round("Round 1", initializeRound));
+
         setRecyclerViewLayout();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentThreePlayer)
+                .commit();
+
+
     }
 
     public void onFourPlayerClick(View view) {
@@ -120,35 +160,59 @@ public class MainActivity extends AppCompatActivity {
         playerNameList.add("Player 3");
         playerNameList.add("Player 4");
         game.setPlayerNameList(playerNameList);
+        initializeGameTotalScoresList(4);
+
+        List<Integer> initializeRound = new ArrayList<>();
+        for (int i = 0; i < game.getNumPlayers(); i++) {
+            initializeRound.add(0);
+        }
+        roundList.add(new Round("Round 1", initializeRound));
+
         setRecyclerViewLayout();
+
+        fragmentManager.beginTransaction()
+                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentFourPlayer)
+                .commit();
+
+
     }
 
+    public void initializeGameTotalScoresList (int players) {
+        for (int i = 0; i < players; i++) {
+            scoreList.add(0);
+        }
+    }
+
+    //Needs Update
     //TODO Change all the edit texts and setting for multiple players
     public void setRecyclerViewLayout() {
         myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
         myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapter = new RecyclerViewAdapter(this, roundList);
+        myAdapter = new RecyclerViewAdapter(this, roundList, game.getNumPlayers());
         //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
         myRecyclerView.setAdapter(myAdapter);
 
-        EditText playerOneName = findViewById(R.id.playerOneName);
-        game.setPlayerNameOne(String.valueOf(playerOneName.getText()));
-        EditText playerTwoName = findViewById(R.id.playerTwoName);
-        game.setPlayerNameTwo(String.valueOf(playerTwoName.getText()));
-        game.setRoundList(roundList);
+        //EditText playerOneName = findViewById(R.id.playerOneName);
+        //game.setPlayerNameOne(String.valueOf(playerOneName.getText()));
+        //EditText playerTwoName = findViewById(R.id.playerTwoName);
+        //game.setPlayerNameTwo(String.valueOf(playerTwoName.getText()));
+        //game.setRoundList(roundList);
 
-        playerOneName.addTextChangedListener(new myTextWatcher(1));
-        playerTwoName.addTextChangedListener(new myTextWatcher(2));
+        //playerOneName.addTextChangedListener(new myTextWatcher(1));
+        //playerTwoName.addTextChangedListener(new myTextWatcher(2));
     }
 
-    //TODO Change round object to deal with different numbers of players
     public void onAddRowClick(View view) {
         String lastRound = roundList.get(roundList.size() - 1).roundNum;
         int lastRoundNum = Integer.parseInt(lastRound.substring(6));
         lastRoundNum++;
         String currentRound = "Round " + lastRoundNum;
+        List<Integer> initializeRound = new ArrayList<>();
 
-        roundList.add(new Round(currentRound, 0, 0));
+        for (int i = 0; i < game.getNumPlayers(); i++) {
+            initializeRound.add(0);
+        }
+        roundList.add(new Round(currentRound, initializeRound));
         game.setRoundList(roundList);
         rvAdapterUpdate(myAdapter, myRecyclerView);
     }
@@ -157,37 +221,65 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView.setAdapter(myAdapter);
     }
 
-
-
+    //Needs update
     public void onCalculateClick(View view) {
-        leftScore = getLeftTotalScore(game.getRoundList());
-        rightScore = getRightTotalScore(game.getRoundList());
-        setTotalScores(leftScore, rightScore);
+        int numPlayers = game.getNumPlayers();
+        if (numPlayers == 2) {
+            scoreList.set(0, getColumnTotalScore(roundList, 0));
+            scoreList.set(1, getColumnTotalScore(roundList, 1));
+        } else if (numPlayers == 3) {
+            scoreList.set(0, getColumnTotalScore(roundList, 0));
+            scoreList.set(1, getColumnTotalScore(roundList, 1));
+            scoreList.set(2, getColumnTotalScore(roundList, 2));
+        } else {
+            scoreList.set(0, getColumnTotalScore(roundList, 0));
+            scoreList.set(1, getColumnTotalScore(roundList, 1));
+            scoreList.set(2, getColumnTotalScore(roundList, 2));
+            scoreList.set(3, getColumnTotalScore(roundList, 3));
+        }
+
+
+        //leftScore = getLeftTotalScore(game.getRoundList());
+        //rightScore = getRightTotalScore(game.getRoundList());
+        //setTotalScores(leftScore, rightScore);
     }
 
+    public int getColumnTotalScore (List<Round> roundList, int column) {
+        int total = 0;
+
+        for (int i = 0; i < roundList.size(); i++) {
+            total += roundList.get(i).getScoreList().get(column);
+        }
+
+        return total;
+    }
+
+    //Needs update
     public int getLeftTotalScore (List<Round> roundList) {
 
         int leftTotal = 0;
 
         for (int i = 0; i < roundList.size(); i++) {
-            leftTotal += roundList.get(i).scoreOne;
+            //leftTotal += roundList.get(i).scoreOne;
         }
 
         return leftTotal;
 
     }
 
+    //Needs update
     public int getRightTotalScore (List<Round> roundList) {
 
         int rightTotal = 0;
 
         for (int i = 0; i < roundList.size(); i++) {
-            rightTotal += roundList.get(i).scoreTwo;
+            //rightTotal += roundList.get(i).scoreTwo;
         }
 
         return rightTotal;
     }
 
+    //Needs update
     public void setTotalScores(int leftScore, int rightScore) {
         TextView totalLeft = findViewById(R.id.totalScoreLeft);
         TextView totalRight = findViewById(R.id.totalScoreRight);
@@ -240,6 +332,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //TODO end of new code with recycler view
+
+
+
+
+
+
+
+
 
 
 
