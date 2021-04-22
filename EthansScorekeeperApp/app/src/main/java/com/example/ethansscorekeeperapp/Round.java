@@ -2,11 +2,12 @@ package com.example.ethansscorekeeperapp;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 
-public class Round {
+public class Round implements Serializable{
 
     public String roundNum;
-    List<Integer> scoreList = new ArrayList<>();
+    List<Integer> scoreList;
 
 
     public Round(String roundNum, List<Integer> scoreList){

@@ -5,16 +5,22 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Fragment;
+import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.ethansscorekeeperapp.fragments.fragmentRVFourPlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentRVThreePlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentRVTwoPlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer;
+
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 // comments
@@ -22,43 +28,56 @@ public class MainActivity extends AppCompatActivity {
 
     int numWelcomeButtonClicks = 0;
 
-    String leftScoreOne;
-    String leftScoreTwo;
-    String rightScoreOne;
-    String rightScoreTwo;
-
     int totalScoreLeft = 0;
     int totalScoreRight = 0;
 
-    //Actual variables and updated code
+    //Initialization for necessary ArrayLists
     List<Round> roundList = new ArrayList<>();
     List<String> playerNameList = new ArrayList<>();
     List<Integer> scoreList = new ArrayList<>();
 
+
+    //Initialization statements for fragmnentManager and fragments
     FragmentManager fragmentManager = getSupportFragmentManager();
-    fragmentRVTwoPlayer fragmentTwoPlayer = new fragmentRVTwoPlayer();
-    fragmentRVThreePlayer fragmentThreePlayer = new fragmentRVThreePlayer();
-    fragmentRVFourPlayer fragmentFourPlayer = new fragmentRVFourPlayer();
+    com.example.ethansscorekeeperapp.fragments.fragmentRVTwoPlayer fragmentRVTwoPlayer = new fragmentRVTwoPlayer();
+    com.example.ethansscorekeeperapp.fragments.fragmentRVThreePlayer fragmentRVThreePlayer = new fragmentRVThreePlayer();
+    com.example.ethansscorekeeperapp.fragments.fragmentRVFourPlayer fragmentRVFourPlayer = new fragmentRVFourPlayer();
+    com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer fragmentScoresTwoPlayer = new fragmentScoresTwoPlayer();
+    com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer fragmentScoresThreePlayer = new fragmentScoresThreePlayer();
+    com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer fragmentScoresFourPlayer = new fragmentScoresFourPlayer();
 
+    TextView txtScoreOne;
+    TextView txtScoreTwo;
+    TextView txtScoreThree;
+    TextView txtScoreFour;
 
+    ScoresRecyclerViewAdapter myScoresRecyclerViewAdapter;
+    RecyclerView myScoresRecyclerView;
 
+    GameListAdapter myGameListAdapter;
+    RecyclerView myGameListRecyclerView;
+
+    Game game = new Game();
+    GameList gameList;
 
     int leftScore = 0;
     int rightScore = 0;
 
-    RecyclerViewAdapter myAdapter;
-    RecyclerView myRecyclerView;
-
-    Game game = new Game();
-
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gameList = GameList.load(this);
+        if (gameList == null) {
+            gameList = new GameList();
+        }
 
-        //TODO TESTING HERE
+        //TODO
+        //For the GameList having a problem setting the text for the game list buttons
+        //TODO
+
+
         setContentView(R.layout.home_screen);
+        setGameListRecyclerView();
         //setContentView(R.layout.score_table_recycler_view);
 
 
@@ -104,104 +123,102 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.set_player_num);
     }
 
+    //Method that initializes the program for two players
     public void onTwoPlayerClick(View view) {
         setContentView(R.layout.score_table_recycler_view);
         game.setNumPlayers(2);
-        playerNameList.add("Player 1");
-        playerNameList.add("Player 2");
-        game.setPlayerNameList(playerNameList);
-        scoreList.add(0);
+
+        initializePlayerNameList(2);
         initializeGameTotalScoresList(2);
+        initializeFirstRound(2);
+        setScoresRecyclerViewLayout();
 
-        List<Integer> initializeRound = new ArrayList<>();
-        for (int i = 0; i < game.getNumPlayers(); i++) {
-            initializeRound.add(0);
-        }
-        roundList.add(new Round("Round 1", initializeRound));
-
-        setRecyclerViewLayout();
-        //roundList.add(new Round("Round 1", ))
 
         fragmentManager.beginTransaction()
-                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentTwoPlayer)
+                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentRVTwoPlayer)
+                .replace(R.id.frameLayoutFragmentScores, fragmentScoresTwoPlayer)
                 .commit();
-
     }
 
+    //Method that initializes the program for three players
     public void onThreePlayerClick(View view) {
         setContentView(R.layout.score_table_recycler_view);
         game.setNumPlayers(3);
-        playerNameList.add("Player 1");
-        playerNameList.add("Player 2");
-        playerNameList.add("Player 3");
-        game.setPlayerNameList(playerNameList);
+
+        initializePlayerNameList(3);
         initializeGameTotalScoresList(3);
-
-        List<Integer> initializeRound = new ArrayList<>();
-        for (int i = 0; i < game.getNumPlayers(); i++) {
-            initializeRound.add(0);
-        }
-        roundList.add(new Round("Round 1", initializeRound));
-
-        setRecyclerViewLayout();
+        initializeFirstRound(3);
+        setScoresRecyclerViewLayout();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentThreePlayer)
+                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentRVThreePlayer)
+                .replace(R.id.frameLayoutFragmentScores, fragmentScoresThreePlayer)
                 .commit();
-
-
     }
 
+    //Method that initializes the program for four players
     public void onFourPlayerClick(View view) {
         setContentView(R.layout.score_table_recycler_view);
         game.setNumPlayers(4);
-        playerNameList.add("Player 1");
-        playerNameList.add("Player 2");
-        playerNameList.add("Player 3");
-        playerNameList.add("Player 4");
-        game.setPlayerNameList(playerNameList);
+
+        initializePlayerNameList(4);
         initializeGameTotalScoresList(4);
-
-        List<Integer> initializeRound = new ArrayList<>();
-        for (int i = 0; i < game.getNumPlayers(); i++) {
-            initializeRound.add(0);
-        }
-        roundList.add(new Round("Round 1", initializeRound));
-
-        setRecyclerViewLayout();
+        initializeFirstRound(4);
+        setScoresRecyclerViewLayout();
 
         fragmentManager.beginTransaction()
-                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentFourPlayer)
+                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentRVFourPlayer)
+                .replace(R.id.frameLayoutFragmentScores, fragmentScoresFourPlayer)
                 .commit();
-
-
     }
 
+    //Method that sets the initial player names
+    public void initializePlayerNameList (int players) {
+        if (players > 1) {
+            playerNameList.add("Player 1");
+            playerNameList.add("Player 2");
+        }
+        if (players > 2) {
+            playerNameList.add("Player 3");
+        }
+        if (players > 3) {
+            playerNameList.add("Player 4");
+        }
+        game.setPlayerNameList(playerNameList);
+    }
+
+    //Method that sets the initial totalScoresList with 0's
     public void initializeGameTotalScoresList (int players) {
         for (int i = 0; i < players; i++) {
             scoreList.add(0);
         }
     }
 
-    //Needs Update
-    //TODO Change all the edit texts and setting for multiple players
-    public void setRecyclerViewLayout() {
-        myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myAdapter = new RecyclerViewAdapter(this, roundList, game.getNumPlayers());
-        //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        myRecyclerView.setAdapter(myAdapter);
-
-        //EditText playerOneName = findViewById(R.id.playerOneName);
-        //game.setPlayerNameOne(String.valueOf(playerOneName.getText()));
-        //EditText playerTwoName = findViewById(R.id.playerTwoName);
-        //game.setPlayerNameTwo(String.valueOf(playerTwoName.getText()));
-        //game.setRoundList(roundList);
-
-        //playerOneName.addTextChangedListener(new myTextWatcher(1));
-        //playerTwoName.addTextChangedListener(new myTextWatcher(2));
+    //Method that sets up the first round in the score table
+    public void initializeFirstRound (int players) {
+        List<Integer> initializeRound = new ArrayList<>();
+        for (int i = 0; i < players; i++) {
+            initializeRound.add(0);
+        }
+        roundList.add(new Round("Round 1", initializeRound));
     }
 
+    public void setGameListRecyclerView() {
+        myGameListRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewGames);
+        myGameListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myGameListAdapter = new GameListAdapter(this, gameList);
+        myGameListRecyclerView.setAdapter(myGameListAdapter);
+    }
+
+    //Initializes the recycler view
+    public void setScoresRecyclerViewLayout() {
+        myScoresRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewScores);
+        myScoresRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        myScoresRecyclerViewAdapter = new ScoresRecyclerViewAdapter(this, roundList, game.getNumPlayers());
+        myScoresRecyclerView.setAdapter(myScoresRecyclerViewAdapter);
+    }
+
+    //Method that gets called when the user adds a new row
     public void onAddRowClick(View view) {
         String lastRound = roundList.get(roundList.size() - 1).roundNum;
         int lastRoundNum = Integer.parseInt(lastRound.substring(6));
@@ -214,34 +231,39 @@ public class MainActivity extends AppCompatActivity {
         }
         roundList.add(new Round(currentRound, initializeRound));
         game.setRoundList(roundList);
-        rvAdapterUpdate(myAdapter, myRecyclerView);
+        rvAdapterUpdate(myScoresRecyclerViewAdapter, myScoresRecyclerView);
     }
 
-    public void rvAdapterUpdate(RecyclerViewAdapter myAdapter, RecyclerView myRecyclerView) {
+    //Method that updates the rvAdapter in case new rounds are added
+    public void rvAdapterUpdate(ScoresRecyclerViewAdapter myAdapter, RecyclerView myRecyclerView) {
         myRecyclerView.setAdapter(myAdapter);
     }
 
-    //Needs update
+    //Method that adds up the total scores for a column
     public void onCalculateClick(View view) {
         int numPlayers = game.getNumPlayers();
-        if (numPlayers == 2) {
+        calculate(numPlayers);
+    }
+
+    public void calculate(int players) {
+        if (players == 2) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
             scoreList.set(1, getColumnTotalScore(roundList, 1));
-        } else if (numPlayers == 3) {
+            fragmentScoresTwoPlayer.setScores(scoreList.get(0), scoreList.get(1));
+        }
+        if (players == 3) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
             scoreList.set(1, getColumnTotalScore(roundList, 1));
             scoreList.set(2, getColumnTotalScore(roundList, 2));
-        } else {
+            fragmentScoresThreePlayer.setScores(scoreList.get(0), scoreList.get(1), scoreList.get(2));
+        }
+        if (players == 4) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
             scoreList.set(1, getColumnTotalScore(roundList, 1));
             scoreList.set(2, getColumnTotalScore(roundList, 2));
             scoreList.set(3, getColumnTotalScore(roundList, 3));
+            fragmentScoresFourPlayer.setScores(scoreList.get(0), scoreList.get(1), scoreList.get(2), scoreList.get(3));
         }
-
-
-        //leftScore = getLeftTotalScore(game.getRoundList());
-        //rightScore = getRightTotalScore(game.getRoundList());
-        //setTotalScores(leftScore, rightScore);
     }
 
     public int getColumnTotalScore (List<Round> roundList, int column) {
@@ -254,81 +276,43 @@ public class MainActivity extends AppCompatActivity {
         return total;
     }
 
-    //Needs update
-    public int getLeftTotalScore (List<Round> roundList) {
-
-        int leftTotal = 0;
-
-        for (int i = 0; i < roundList.size(); i++) {
-            //leftTotal += roundList.get(i).scoreOne;
+    //Method that gets the current player names from the edit texts for the name fields
+    public void savePlayerNames(int players) {
+        if (players == 2) {
+            game.setPlayerNameList(fragmentRVTwoPlayer.getPlayerNames());
         }
-
-        return leftTotal;
-
+        if (players == 3) {
+            game.setPlayerNameList(fragmentRVThreePlayer.getPlayerNames());
+        }
+        if (players == 4) {
+            game.setPlayerNameList(fragmentRVFourPlayer.getPlayerNames());
+        }
     }
 
-    //Needs update
-    public int getRightTotalScore (List<Round> roundList) {
-
-        int rightTotal = 0;
-
-        for (int i = 0; i < roundList.size(); i++) {
-            //rightTotal += roundList.get(i).scoreTwo;
-        }
-
-        return rightTotal;
+    public void onSaveClick (View view) {
+        setContentView(R.layout.save_screen);
     }
 
-    //Needs update
-    public void setTotalScores(int leftScore, int rightScore) {
-        TextView totalLeft = findViewById(R.id.totalScoreLeft);
-        TextView totalRight = findViewById(R.id.totalScoreRight);
-
-        totalLeft.setText(String.valueOf(leftScore));
-        totalRight.setText(String.valueOf(rightScore));
+    public void onSaveConfirmation (View view) {
+        EditText inputGameName = findViewById(R.id.gameName);
+        if (inputGameName.getText().length() != 0) {
+            game.setGameName(String.valueOf(inputGameName.getText()));
+            prepareGameForSave();
+            saveGameToFile(this);
+            setContentView(R.layout.home_screen);
+        }
     }
 
+    public void prepareGameForSave() {
+        savePlayerNames(game.getNumPlayers());
+        game.setRoundList(roundList);
+        Date d = new Date();
+        game.setGameDate(d);
+    }
 
-    public class myTextWatcher implements TextWatcher {
-
-        int playerNum;
-
-        public myTextWatcher(int playerNum) {
-            this.playerNum = playerNum;
-        }
-
-        @Override
-        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
-        }
-
-        @Override
-        public void onTextChanged(CharSequence s, int start, int before, int count) {
-
-        }
-
-        @Override
-        public void afterTextChanged(Editable s) {
-            if ( playerNum < 0 ) {
-                return;
-            }
-            if (playerNum == 1) {
-                playerNameList.set(0, String.valueOf(s));
-                game.setPlayerNameList(playerNameList);
-            }
-            if (playerNum == 2) {
-                playerNameList.set(1, String.valueOf(s));
-                game.setPlayerNameList(playerNameList);
-            }
-            if (playerNum == 3) {
-                playerNameList.set(2, String.valueOf(s));
-                game.setPlayerNameList(playerNameList);
-            }
-            if (playerNum == 4) {
-                playerNameList.set(3, String.valueOf(s));
-                game.setPlayerNameList(playerNameList);
-            }
-        }
+    public void saveGameToFile (Context context) {
+        gameList.addSavedGame(game);
+        gameList.save(this);
     }
 
     //TODO end of new code with recycler view

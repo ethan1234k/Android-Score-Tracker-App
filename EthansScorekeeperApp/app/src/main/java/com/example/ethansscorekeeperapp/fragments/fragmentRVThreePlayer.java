@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp;
+package com.example.ethansscorekeeperapp.fragments;
 
 import android.os.Bundle;
 
@@ -7,24 +7,33 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+
+import com.example.ethansscorekeeperapp.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragmentRVTwoPlayer#newInstance} factory method to
+ * Use the {@link fragmentRVThreePlayer#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragmentRVTwoPlayer extends Fragment {
+public class fragmentRVThreePlayer extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+    EditText playerOneName;
+    EditText playerTwoName;
+    EditText playerThreeName;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public fragmentRVTwoPlayer() {
+    public fragmentRVThreePlayer() {
         // Required empty public constructor
     }
 
@@ -34,11 +43,11 @@ public class fragmentRVTwoPlayer extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragmentRVTwoPlayer.
+     * @return A new instance of fragment fragmentRVThreePlayer.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragmentRVTwoPlayer newInstance(String param1, String param2) {
-        fragmentRVTwoPlayer fragment = new fragmentRVTwoPlayer();
+    public static fragmentRVThreePlayer newInstance(String param1, String param2) {
+        fragmentRVThreePlayer fragment = new fragmentRVThreePlayer();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -56,9 +65,24 @@ public class fragmentRVTwoPlayer extends Fragment {
     }
 
     @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        playerOneName = getView().findViewById(R.id.playerOneName);
+        playerTwoName = getView().findViewById(R.id.playerTwoName);
+        playerThreeName = getView().findViewById(R.id.playerThreeName);
+    }
+
+    public List<String> getPlayerNames () {
+        List<String> nameList = new ArrayList<>();
+        nameList.add(String.valueOf(playerOneName.getText()));
+        nameList.add(String.valueOf(playerTwoName.getText()));
+        nameList.add(String.valueOf(playerThreeName.getText()));
+        return nameList;
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rv_two_player, container, false);
+        return inflater.inflate(R.layout.fragment_rv_three_player, container, false);
     }
 }

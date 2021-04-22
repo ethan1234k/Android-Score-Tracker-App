@@ -13,36 +13,6 @@
         android:layout_height="50dp"
         android:name="com.example.ExampleFragment" />
 
-    <!--<LinearLayout
-        android:id="@+id/playerNames"
-        android:layout_width="match_parent"
-        android:layout_height="50dp">
-
-        <TextView
-            android:layout_width="0dp"
-            android:layout_weight="1"
-            android:layout_height="match_parent" />
-
-        <EditText
-            android:id="@+id/playerOneName"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:text="Player 1"
-            android:textAlignment="center"
-            tools:ignore="RtlCompat" />
-
-        <EditText
-            android:id="@+id/playerTwoName"
-            android:layout_width="0dp"
-            android:layout_weight="2"
-            android:layout_height="match_parent"
-            android:text="Player 2"
-            android:textAlignment="center"
-            tools:ignore="RtlCompat" />
-
-    </LinearLayout> -->
-
     <LinearLayout
         android:id="@+id/recyclerViewLayout"
         android:layout_width="match_parent"
@@ -51,7 +21,7 @@
         android:layout_marginBottom="125dp">
 
         <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/recyclerView"
+            android:id="@+id/recyclerViewScores"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:scrollbars="vertical" >
@@ -62,7 +32,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="50dp"
-        android:layout_above="@+id/totalScores"
+        android:layout_above="@+id/frameLayoutFragmentScores"
         android:layout_marginBottom="12dp" >
 
         <Button
@@ -76,7 +46,21 @@
 
         <TextView
             android:layout_width="0dp"
+            android:layout_weight="0.2"
+            android:layout_height="50dp" />
+
+        <Button
+            android:id="@+id/saveButton"
+            android:layout_width="0dp"
             android:layout_weight="1"
+            android:layout_height="50dp"
+            android:text="Save"
+            android:background="@color/red"
+            android:onClick="onSaveClick" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="0.2"
             android:layout_height="50dp" />
 
         <Button
@@ -90,7 +74,15 @@
 
     </LinearLayout>
 
-    <LinearLayout
+    <FrameLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:id="@+id/frameLayoutFragmentScores"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:name="com.example.ExampleFragment"
+        android:layout_alignParentBottom="true"/>
+
+    <!-- <LinearLayout
         android:id="@+id/totalScores"
         android:layout_width="match_parent"
         android:layout_height="50dp"
@@ -132,6 +124,6 @@
             android:gravity="center_vertical"
             tools:ignore="RtlCompat" />
 
-    </LinearLayout>
+    </LinearLayout> -->
 
 </RelativeLayout>
