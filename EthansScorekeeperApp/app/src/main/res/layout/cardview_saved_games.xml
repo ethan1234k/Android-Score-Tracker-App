@@ -18,7 +18,8 @@
         app:strokeColor="@color/grey"
         app:strokeWidth="2dp"
         android:text="game"
-        android:textColor="@color/black"/>
+        android:textColor="@color/black"
+        android:onClick="onSavedGameClick" />
 
 
 </androidx.cardview.widget.CardView>

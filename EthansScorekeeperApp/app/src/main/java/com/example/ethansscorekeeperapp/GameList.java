@@ -33,11 +33,15 @@ public class GameList implements Serializable{
         gameList.add(game);
     }
 
-    public String getGameDisplay (int position) {
-        Game game = gameList.get(position);
+    public String getGameDisplay (int index) {
+        Game game = gameList.get(index);
         String gameDisplay;
-        gameDisplay = game.getGameName() + "      " + game.getGameDate();
+        gameDisplay = String.valueOf(index + 1) + ".   " + game.getGameName() + "    " + game.getGameDate();
         return gameDisplay;
+    }
+
+    public Game getGameAtIndex (int index) {
+        return gameList.get(index);
     }
 
     public int getSize() {

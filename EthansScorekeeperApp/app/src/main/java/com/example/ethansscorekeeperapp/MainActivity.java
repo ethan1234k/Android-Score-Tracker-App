@@ -12,9 +12,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.example.ethansscorekeeperapp.fragments.fragmentRVFourPlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentRVThreePlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentRVTwoPlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentNamesFourPlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentNamesThreePlayer;
+import com.example.ethansscorekeeperapp.fragments.fragmentNamesTwoPlayer;
 import com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer;
 import com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer;
 import com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer;
@@ -39,17 +39,12 @@ public class MainActivity extends AppCompatActivity {
 
     //Initialization statements for fragmnentManager and fragments
     FragmentManager fragmentManager = getSupportFragmentManager();
-    com.example.ethansscorekeeperapp.fragments.fragmentRVTwoPlayer fragmentRVTwoPlayer = new fragmentRVTwoPlayer();
-    com.example.ethansscorekeeperapp.fragments.fragmentRVThreePlayer fragmentRVThreePlayer = new fragmentRVThreePlayer();
-    com.example.ethansscorekeeperapp.fragments.fragmentRVFourPlayer fragmentRVFourPlayer = new fragmentRVFourPlayer();
+    fragmentNamesTwoPlayer fragmentNamesTwoPlayer = new fragmentNamesTwoPlayer(this);
+    fragmentNamesThreePlayer fragmentNamesThreePlayer = new fragmentNamesThreePlayer(this);
+    fragmentNamesFourPlayer fragmentNamesFourPlayer = new fragmentNamesFourPlayer(this);
     com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer fragmentScoresTwoPlayer = new fragmentScoresTwoPlayer();
     com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer fragmentScoresThreePlayer = new fragmentScoresThreePlayer();
     com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer fragmentScoresFourPlayer = new fragmentScoresFourPlayer();
-
-    TextView txtScoreOne;
-    TextView txtScoreTwo;
-    TextView txtScoreThree;
-    TextView txtScoreFour;
 
     ScoresRecyclerViewAdapter myScoresRecyclerViewAdapter;
     RecyclerView myScoresRecyclerView;
@@ -72,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         //TODO
-        //For the GameList having a problem setting the text for the game list buttons
+        //Use AlertDialog for saving the game to replace the save screen
         //TODO
 
 
@@ -123,6 +118,21 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.set_player_num);
     }
 
+    //Method that gets called when the user is trying to load a saved game, and sets and prepares the necessary elements and variables for the game
+    public void loadGame(int savedGameNum) {
+        game = gameList.getGameAtIndex(savedGameNum);
+        setGameFragments(game.getNumPlayers());
+        roundList = game.getRoundList();
+        setContentView(R.layout.score_table_recycler_view);
+        setScoresRecyclerViewLayout();
+        playerNameList = game.getPlayerNameList();
+        initializeGameTotalScoresList(game.getNumPlayers());
+    }
+
+    public void callSetPlayerNames() {
+        setPlayerNames(game.getNumPlayers(), playerNameList);
+    }
+
     //Method that initializes the program for two players
     public void onTwoPlayerClick(View view) {
         setContentView(R.layout.score_table_recycler_view);
@@ -132,12 +142,7 @@ public class MainActivity extends AppCompatActivity {
         initializeGameTotalScoresList(2);
         initializeFirstRound(2);
         setScoresRecyclerViewLayout();
-
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentRVTwoPlayer)
-                .replace(R.id.frameLayoutFragmentScores, fragmentScoresTwoPlayer)
-                .commit();
+        setGameFragments(2);
     }
 
     //Method that initializes the program for three players
@@ -149,11 +154,7 @@ public class MainActivity extends AppCompatActivity {
         initializeGameTotalScoresList(3);
         initializeFirstRound(3);
         setScoresRecyclerViewLayout();
-
-        fragmentManager.beginTransaction()
-                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentRVThreePlayer)
-                .replace(R.id.frameLayoutFragmentScores, fragmentScoresThreePlayer)
-                .commit();
+        setGameFragments(3);
     }
 
     //Method that initializes the program for four players
@@ -165,11 +166,42 @@ public class MainActivity extends AppCompatActivity {
         initializeGameTotalScoresList(4);
         initializeFirstRound(4);
         setScoresRecyclerViewLayout();
+        setGameFragments(4);
+    }
 
-        fragmentManager.beginTransaction()
-                .replace(R.id.frameLayoutFragmentPlayerNames, fragmentRVFourPlayer)
-                .replace(R.id.frameLayoutFragmentScores, fragmentScoresFourPlayer)
-                .commit();
+    //Method that takes the number of players in the game, and correctly sets the fragments for the score table UI
+    public void setGameFragments (int numPlayers) {
+        if (numPlayers == 2) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frameLayoutFragmentPlayerNames, fragmentNamesTwoPlayer)
+                    .replace(R.id.frameLayoutFragmentScores, fragmentScoresTwoPlayer)
+                    .commit();
+        }
+        if (numPlayers == 3) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frameLayoutFragmentPlayerNames, fragmentNamesThreePlayer)
+                    .replace(R.id.frameLayoutFragmentScores, fragmentScoresThreePlayer)
+                    .commit();
+        }
+        if (numPlayers == 4) {
+            fragmentManager.beginTransaction()
+                    .replace(R.id.frameLayoutFragmentPlayerNames, fragmentNamesFourPlayer)
+                    .replace(R.id.frameLayoutFragmentScores, fragmentScoresFourPlayer)
+                    .commit();
+        }
+    }
+
+    //Method that
+    public void setPlayerNames(int numPlayers, List<String> playerNameList) {
+        if (numPlayers == 2) {
+            fragmentNamesTwoPlayer.setPlayerNames(playerNameList);
+        }
+        if (numPlayers == 3) {
+            fragmentNamesThreePlayer.setPlayerNames(playerNameList);
+        }
+        if (numPlayers == 4) {
+            fragmentNamesFourPlayer.setPlayerNames(playerNameList);
+        }
     }
 
     //Method that sets the initial player names
@@ -206,7 +238,7 @@ public class MainActivity extends AppCompatActivity {
     public void setGameListRecyclerView() {
         myGameListRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewGames);
         myGameListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myGameListAdapter = new GameListAdapter(this, gameList);
+        myGameListAdapter = new GameListAdapter(this, gameList, this);
         myGameListRecyclerView.setAdapter(myGameListAdapter);
     }
 
@@ -279,18 +311,24 @@ public class MainActivity extends AppCompatActivity {
     //Method that gets the current player names from the edit texts for the name fields
     public void savePlayerNames(int players) {
         if (players == 2) {
-            game.setPlayerNameList(fragmentRVTwoPlayer.getPlayerNames());
+            game.setPlayerNameList(fragmentNamesTwoPlayer.getPlayerNames());
         }
         if (players == 3) {
-            game.setPlayerNameList(fragmentRVThreePlayer.getPlayerNames());
+            game.setPlayerNameList(fragmentNamesThreePlayer.getPlayerNames());
         }
         if (players == 4) {
-            game.setPlayerNameList(fragmentRVFourPlayer.getPlayerNames());
+            game.setPlayerNameList(fragmentNamesFourPlayer.getPlayerNames());
         }
     }
 
     public void onSaveClick (View view) {
         setContentView(R.layout.save_screen);
+    }
+
+    //TODO needs fixing
+    //Erases the previous RV and layout, messes everything up
+    public void onBackClick(View view) {
+        setContentView(R.layout.score_table_recycler_view);
     }
 
     public void onSaveConfirmation (View view) {

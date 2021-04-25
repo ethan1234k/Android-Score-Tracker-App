@@ -13,10 +13,13 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
 
     private Context mContext;
     private GameList mGameList;
+    private MainActivity mMainActivity;
+    int gameToLoad;
 
-    public GameListAdapter (Context mContext, GameList mGameList) {
+    public GameListAdapter (Context mContext, GameList mGameList, MainActivity mMainActivity) {
         this.mContext = mContext;
         this.mGameList = mGameList;
+        this.mMainActivity = mMainActivity;
     }
 
     public GameListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -40,6 +43,16 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
             super(itemView);
             //Button is initialized but can't correctly set the text of the button at all!!
             savedGame = (Button) itemView.findViewById(R.id.savedGame_id);
+            savedGame.setOnClickListener(new View.OnClickListener() {
+
+                @Override
+                public void onClick(View v) {
+                    String buttonText = (String) savedGame.getText();
+                    buttonText = buttonText.substring(0, buttonText.indexOf('.'));
+                    gameToLoad = Integer.parseInt(buttonText) - 1;
+                    mMainActivity.loadGame(gameToLoad);
+                }
+            });
         }
     }
 
