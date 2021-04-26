@@ -58,8 +58,7 @@ public class MainActivity extends AppCompatActivity {
     Game game = new Game();
     GameList gameList;
 
-    int leftScore = 0;
-    int rightScore = 0;
+    int numTimesBackToHomeScreen = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -122,13 +121,16 @@ public class MainActivity extends AppCompatActivity {
     } */
 
     public void onNewGameClick(View view) {
-        // setup the alert builder
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("How Many Players?");
+        createSetNumPlayersDialog();
+    }
+
+    public void createSetNumPlayersDialog() {
+        AlertDialog.Builder numPlayersBuilder = new AlertDialog.Builder(this);
+        numPlayersBuilder.setTitle("How Many Players?");
         String[] playerNums = {"Two", "Three", "Four"};
         int checkedItem = 0;
-        builder.setSingleChoiceItems(playerNums, checkedItem, null);
-        builder.setPositiveButton(
+        numPlayersBuilder.setSingleChoiceItems(playerNums, checkedItem, null);
+        numPlayersBuilder.setPositiveButton(
                 "Confirm",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -146,14 +148,14 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        builder.setNegativeButton(
+        numPlayersBuilder.setNegativeButton(
                 "Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
                     }
                 });
-        AlertDialog dialog = builder.create();
+        AlertDialog dialog = numPlayersBuilder.create();
         dialog.show();
     }
 
@@ -367,13 +369,13 @@ public class MainActivity extends AppCompatActivity {
 
     //Method that creates the save game alert dialog. This alert asks the user for the game name, and stores it.
     public void createSaveGameDialog() {
-        AlertDialog.Builder saveNameDialog = new AlertDialog.Builder(this);
+        AlertDialog.Builder saveNameBuilder = new AlertDialog.Builder(this);
         final EditText gameName = new EditText(this);
-        saveNameDialog.setMessage("Enter Game Name Below");
-        saveNameDialog.setView(gameName);
-        saveNameDialog.setCancelable(true);
+        saveNameBuilder.setMessage("Enter Game Name Below");
+        saveNameBuilder.setView(gameName);
+        saveNameBuilder.setCancelable(true);
 
-        saveNameDialog.setPositiveButton(
+        saveNameBuilder.setPositiveButton(
                 "Confirm",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -384,7 +386,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        saveNameDialog.setNegativeButton(
+        saveNameBuilder.setNegativeButton(
                 "Cancel",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
@@ -392,7 +394,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 });
 
-        AlertDialog alertSaveName = saveNameDialog.create();
+        AlertDialog alertSaveName = saveNameBuilder.create();
         alertSaveName.show();
     }
 
@@ -401,7 +403,10 @@ public class MainActivity extends AppCompatActivity {
         prepareGameForSave();
         saveGameToFile(this);
         setContentView(R.layout.home_screen);
-
+        roundList.clear();
+        setGameListRecyclerView();
+        numTimesBackToHomeScreen++;
+        detachFragments(game.getNumPlayers());
     }
 
     public void prepareGameForSave() {
@@ -414,6 +419,27 @@ public class MainActivity extends AppCompatActivity {
     public void saveGameToFile (Context context) {
         gameList.addSavedGame(game);
         gameList.save(this);
+    }
+
+    public void detachFragments(int numPlayers) {
+        if (numPlayers == 2) {
+            fragmentManager.beginTransaction()
+                    .remove(fragmentNamesTwoPlayer)
+                    .remove(fragmentScoresTwoPlayer)
+                    .commit();
+        }
+        if (numPlayers == 3) {
+            fragmentManager.beginTransaction()
+                    .remove(fragmentNamesThreePlayer)
+                    .remove(fragmentScoresThreePlayer)
+                    .commit();
+        }
+        if (numPlayers == 4) {
+            fragmentManager.beginTransaction()
+                    .remove(fragmentNamesFourPlayer)
+                    .remove(fragmentScoresFourPlayer)
+                    .commit();
+        }
     }
 
     //TODO end of new code with recycler view
