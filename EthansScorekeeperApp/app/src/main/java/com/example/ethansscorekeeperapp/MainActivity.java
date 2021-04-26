@@ -5,8 +5,11 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -114,8 +117,44 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void onNewGameClick(View view) {
+    /*public void onNewGameClick(View view) {
         setContentView(R.layout.set_player_num);
+    } */
+
+    public void onNewGameClick(View view) {
+        // setup the alert builder
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("How Many Players?");
+        String[] playerNums = {"Two", "Three", "Four"};
+        int checkedItem = 0;
+        builder.setSingleChoiceItems(playerNums, checkedItem, null);
+        builder.setPositiveButton(
+                "Confirm",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                        if (selectedPosition == 0) {
+                            twoPlayersSelected();
+                        }
+                        if (selectedPosition == 1) {
+                            threePlayersSelected();
+                        }
+                        if (selectedPosition == 2) {
+                            fourPlayersSelected();
+                        }
+                        dialog.cancel();
+                    }
+                });
+
+        builder.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog dialog = builder.create();
+        dialog.show();
     }
 
     //Method that gets called when the user is trying to load a saved game, and sets and prepares the necessary elements and variables for the game
@@ -134,7 +173,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method that initializes the program for two players
-    public void onTwoPlayerClick(View view) {
+    public void twoPlayersSelected() {
         setContentView(R.layout.score_table_recycler_view);
         game.setNumPlayers(2);
 
@@ -146,7 +185,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method that initializes the program for three players
-    public void onThreePlayerClick(View view) {
+    public void threePlayersSelected() {
         setContentView(R.layout.score_table_recycler_view);
         game.setNumPlayers(3);
 
@@ -158,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method that initializes the program for four players
-    public void onFourPlayerClick(View view) {
+    public void fourPlayersSelected() {
         setContentView(R.layout.score_table_recycler_view);
         game.setNumPlayers(4);
 
@@ -321,24 +360,48 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void onSaveClick (View view) {
-        setContentView(R.layout.save_screen);
+    //When the save button is clicked, calls the createSaveGameDialog method
+    public void onSaveClick(View view) {
+        createSaveGameDialog();
     }
 
-    //TODO needs fixing
-    //Erases the previous RV and layout, messes everything up
-    public void onBackClick(View view) {
-        setContentView(R.layout.score_table_recycler_view);
+    //Method that creates the save game alert dialog. This alert asks the user for the game name, and stores it.
+    public void createSaveGameDialog() {
+        AlertDialog.Builder saveNameDialog = new AlertDialog.Builder(this);
+        final EditText gameName = new EditText(this);
+        saveNameDialog.setMessage("Enter Game Name Below");
+        saveNameDialog.setView(gameName);
+        saveNameDialog.setCancelable(true);
+
+        saveNameDialog.setPositiveButton(
+                "Confirm",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        if (gameName.getText().length() != 0) {
+                            saveConfirmation(String.valueOf(gameName.getText()));
+                            dialog.cancel();
+                        }
+                    }
+                });
+
+        saveNameDialog.setNegativeButton(
+                "Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+
+        AlertDialog alertSaveName = saveNameDialog.create();
+        alertSaveName.show();
     }
 
-    public void onSaveConfirmation (View view) {
-        EditText inputGameName = findViewById(R.id.gameName);
-        if (inputGameName.getText().length() != 0) {
-            game.setGameName(String.valueOf(inputGameName.getText()));
-            prepareGameForSave();
-            saveGameToFile(this);
-            setContentView(R.layout.home_screen);
-        }
+    public void saveConfirmation (String gameName) {
+        game.setGameName(String.valueOf(gameName));
+        prepareGameForSave();
+        saveGameToFile(this);
+        setContentView(R.layout.home_screen);
+
     }
 
     public void prepareGameForSave() {
