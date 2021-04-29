@@ -58,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     Game game = new Game();
     GameList gameList;
 
-    int numTimesBackToHomeScreen = 0;
+    int gameNum = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -161,6 +161,7 @@ public class MainActivity extends AppCompatActivity {
 
     //Method that gets called when the user is trying to load a saved game, and sets and prepares the necessary elements and variables for the game
     public void loadGame(int savedGameNum) {
+        gameNum = savedGameNum;
         game = gameList.getGameAtIndex(savedGameNum);
         setGameFragments(game.getNumPlayers());
         roundList = game.getRoundList();
@@ -403,9 +404,11 @@ public class MainActivity extends AppCompatActivity {
         prepareGameForSave();
         saveGameToFile(this);
         setContentView(R.layout.home_screen);
-        roundList.clear();
+        //TODO this is the problem
+        game = new Game();
+        roundList = new ArrayList<>();
+        gameNum = -1;
         setGameListRecyclerView();
-        numTimesBackToHomeScreen++;
         detachFragments(game.getNumPlayers());
     }
 
@@ -417,7 +420,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void saveGameToFile (Context context) {
-        gameList.addSavedGame(game);
+        if (gameNum == -1) {
+            gameList.addSavedGame(game);
+        } else {
+            gameList.setGame(gameNum, game);
+        }
         gameList.save(this);
     }
 

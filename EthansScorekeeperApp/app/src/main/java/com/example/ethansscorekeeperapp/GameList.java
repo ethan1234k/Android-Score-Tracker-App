@@ -29,6 +29,10 @@ public class GameList implements Serializable{
         this.gameList = gameList;
     }
 
+    public void setGame(int index, Game game) {
+        gameList.set(index, game);
+    }
+
     public void addSavedGame(Game game) {
         gameList.add(game);
     }
