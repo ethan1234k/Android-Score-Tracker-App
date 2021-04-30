@@ -11,6 +11,9 @@ import java.io.ObjectInput;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 
 public class GameList implements Serializable{
@@ -40,7 +43,8 @@ public class GameList implements Serializable{
     public String getGameDisplay (int index) {
         Game game = gameList.get(index);
         String gameDisplay;
-        gameDisplay = String.valueOf(index + 1) + ".   " + game.getGameName() + "    " + game.getGameDate();
+        DateFormat formatter = new SimpleDateFormat("M/dd/yyyy h:mm a");
+        gameDisplay = String.valueOf(index + 1) + ".    " + game.getGameName() + "     " + formatter.format(game.getGameDate());;
         return gameDisplay;
     }
 

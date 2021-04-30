@@ -1,12 +1,14 @@
 package com.example.ethansscorekeeperapp;
 
 import android.content.Context;
+import android.os.Build;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.recyclerview.widget.RecyclerView;
 
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameListViewHolder> {
@@ -29,6 +31,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
         return new GameListViewHolder(view);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
     public void onBindViewHolder(@NonNull GameListViewHolder holder, int position) {
         holder.setIsRecyclable(false);
         String gameText = mGameList.getGameDisplay(position);

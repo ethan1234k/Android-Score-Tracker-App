@@ -5,21 +5,44 @@
     android:layout_height="50dp"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
-
-
-
-    <Button
-        android:id="@+id/savedGame_id"
-        android:layout_marginRight="15dp"
-        android:layout_marginLeft="15dp"
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:backgroundTint="@color/white"
-        app:strokeColor="@color/grey"
-        app:strokeWidth="2dp"
-        android:text="game"
-        android:textColor="@color/black"
-        android:onClick="onSavedGameClick" />
+        android:orientation="horizontal" >
+
+
+        <Button
+            android:id="@+id/savedGame_id"
+            android:layout_marginRight="5dp"
+            android:layout_marginLeft="15dp"
+            android:layout_width="0dp"
+            android:layout_weight="6"
+            android:layout_height="match_parent"
+            android:backgroundTint="@color/white"
+            app:strokeColor="@color/grey"
+            app:strokeWidth="2dp"
+            android:text="game"
+            android:gravity="left|center_vertical"
+            android:textColor="@color/black"
+            android:onClick="onSavedGameClick" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/deleteGameButton"
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            app:fabCustomSize="30dp"
+            app:srcCompat="@drawable/ic_delete"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/white"
+            app:backgroundTint="@color/white"
+            app:borderWidth="2dp"
+            android:clickable="true"
+            tools:ignore="VectorDrawableCompat"
+            android:onClick="onDeleteSavedGameClick"/>
+
+    </LinearLayout>
+
+
 
 
 </androidx.cardview.widget.CardView>

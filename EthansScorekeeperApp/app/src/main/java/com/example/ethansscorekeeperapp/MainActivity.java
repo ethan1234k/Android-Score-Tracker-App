@@ -404,9 +404,10 @@ public class MainActivity extends AppCompatActivity {
         prepareGameForSave();
         saveGameToFile(this);
         setContentView(R.layout.home_screen);
-        //TODO this is the problem
+        //Resets all variables and lists
         game = new Game();
         roundList = new ArrayList<>();
+        playerNameList = new ArrayList<>();
         gameNum = -1;
         setGameListRecyclerView();
         detachFragments(game.getNumPlayers());
