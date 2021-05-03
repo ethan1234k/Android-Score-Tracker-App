@@ -22,7 +22,8 @@
             android:layout_height="match_parent"
             android:text="Player 1"
             android:textAlignment="center"
-            tools:ignore="RtlCompat" />
+            tools:ignore="RtlCompat"
+            android:selectAllOnFocus="true"/>
 
         <EditText
             android:id="@+id/playerTwoName"
@@ -31,7 +32,8 @@
             android:layout_height="match_parent"
             android:text="Player 2"
             android:textAlignment="center"
-            tools:ignore="RtlCompat" />
+            tools:ignore="RtlCompat"
+            android:selectAllOnFocus="true"/>
 
         <EditText
             android:id="@+id/playerThreeName"
@@ -40,7 +42,8 @@
             android:layout_height="match_parent"
             android:text="Player 3"
             android:textAlignment="center"
-            tools:ignore="RtlCompat" />
+            tools:ignore="RtlCompat"
+            android:selectAllOnFocus="true"/>
 
         <EditText
             android:id="@+id/playerFourName"
@@ -49,7 +52,8 @@
             android:layout_height="match_parent"
             android:text="Player 4"
             android:textAlignment="center"
-            tools:ignore="RtlCompat" />
+            tools:ignore="RtlCompat"
+            android:selectAllOnFocus="true"/>
 
     </LinearLayout>
 

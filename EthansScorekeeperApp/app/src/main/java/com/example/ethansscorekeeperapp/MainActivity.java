@@ -40,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
     List<Integer> scoreList = new ArrayList<>();
 
 
-    //Initialization statements for fragmnentManager and fragments
+    //Initialization statements for fragmentManager and fragments
     FragmentManager fragmentManager = getSupportFragmentManager();
     fragmentNamesTwoPlayer fragmentNamesTwoPlayer = new fragmentNamesTwoPlayer(this);
     fragmentNamesThreePlayer fragmentNamesThreePlayer = new fragmentNamesThreePlayer(this);
