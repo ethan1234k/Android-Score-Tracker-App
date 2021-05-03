@@ -83,5 +83,8 @@ public class GameList implements Serializable{
         return gameList;
     }
 
+    public void deleteGame(int index) {
+        gameList.remove(index);
+    }
 
 }

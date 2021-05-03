@@ -27,7 +27,7 @@
             android:onClick="onSavedGameClick" />
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/deleteGameButton"
+            android:id="@+id/deleteGameButton_id"
             android:layout_width="0dp"
             android:layout_weight="1"
             app:fabCustomSize="30dp"

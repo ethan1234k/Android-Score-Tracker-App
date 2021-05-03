@@ -116,9 +116,10 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    /*public void onNewGameClick(View view) {
-        setContentView(R.layout.set_player_num);
-    } */
+    public void onStop() {
+        gameList.save(this);
+        super.onStop();
+    }
 
     public void onNewGameClick(View view) {
         createSetNumPlayersDialog();
@@ -169,6 +170,11 @@ public class MainActivity extends AppCompatActivity {
         setScoresRecyclerViewLayout();
         playerNameList = game.getPlayerNameList();
         initializeGameTotalScoresList(game.getNumPlayers());
+    }
+
+    public void deleteGame(int gameNum) {
+        gameList.deleteGame(gameNum);
+        setGameListRecyclerView();
     }
 
     public void callSetPlayerNames() {
@@ -426,7 +432,6 @@ public class MainActivity extends AppCompatActivity {
         } else {
             gameList.setGame(gameNum, game);
         }
-        gameList.save(this);
     }
 
     public void detachFragments(int numPlayers) {
