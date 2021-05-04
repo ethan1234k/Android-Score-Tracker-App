@@ -294,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
     public void setScoresRecyclerViewLayout() {
         myScoresRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewScores);
         myScoresRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myScoresRecyclerViewAdapter = new ScoresRecyclerViewAdapter(this, roundList, game.getNumPlayers());
+        myScoresRecyclerViewAdapter = new ScoresRecyclerViewAdapter(this, roundList,this , game.getNumPlayers());
         myScoresRecyclerView.setAdapter(myScoresRecyclerViewAdapter);
     }
 
@@ -319,25 +319,19 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView.setAdapter(myAdapter);
     }
 
-    //Method that adds up the total scores for a column
-    public void onCalculateClick(View view) {
-        int numPlayers = game.getNumPlayers();
-        calculate(numPlayers);
-    }
-
-    public void calculate(int players) {
-        if (players == 2) {
+    public void calculate() {
+        if (game.getNumPlayers() == 2) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
             scoreList.set(1, getColumnTotalScore(roundList, 1));
             fragmentScoresTwoPlayer.setScores(scoreList.get(0), scoreList.get(1));
         }
-        if (players == 3) {
+        if (game.getNumPlayers() == 3) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
             scoreList.set(1, getColumnTotalScore(roundList, 1));
             scoreList.set(2, getColumnTotalScore(roundList, 2));
             fragmentScoresThreePlayer.setScores(scoreList.get(0), scoreList.get(1), scoreList.get(2));
         }
-        if (players == 4) {
+        if (game.getNumPlayers() == 4) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
             scoreList.set(1, getColumnTotalScore(roundList, 1));
             scoreList.set(2, getColumnTotalScore(roundList, 2));
@@ -454,6 +448,8 @@ public class MainActivity extends AppCompatActivity {
                     .commit();
         }
     }
+
+
 
     //TODO end of new code with recycler view
 

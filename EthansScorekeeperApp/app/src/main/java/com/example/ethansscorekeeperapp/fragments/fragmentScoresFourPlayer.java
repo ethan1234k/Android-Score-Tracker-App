@@ -71,10 +71,14 @@ public class fragmentScoresFourPlayer extends Fragment {
     }
 
     public void setScores(int scoreOne, int scoreTwo, int scoreThree, int scoreFour) {
-        totalScoreOne.setText(String.valueOf(scoreOne));
-        totalScoreTwo.setText(String.valueOf(scoreTwo));
-        totalScoreThree.setText(String.valueOf(scoreThree));
-        totalScoreFour.setText(String.valueOf(scoreFour));
+        try {
+            totalScoreOne.setText(String.valueOf(scoreOne));
+            totalScoreTwo.setText(String.valueOf(scoreTwo));
+            totalScoreThree.setText(String.valueOf(scoreThree));
+            totalScoreFour.setText(String.valueOf(scoreFour));
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

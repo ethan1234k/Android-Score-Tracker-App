@@ -18,11 +18,13 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
 
     private Context mContext;
     private List<Round> mData;
+    private MainActivity mMainActivity;
     int players;
 
-    public ScoresRecyclerViewAdapter(Context mContext, List<Round> mData, int players) {
+    public ScoresRecyclerViewAdapter(Context mContext, List<Round> mData, MainActivity mMainActivity, int players) {
         this.mContext = mContext;
         this.mData = mData;
+        this.mMainActivity = mMainActivity;
         this.players = players;
     }
 
@@ -129,6 +131,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
             }
             Round r = mData.get(round);
             r.getScoreList().set(playerNum - 1, Integer.valueOf(s.toString()));
+            mMainActivity.calculate();
         }
 
     }
