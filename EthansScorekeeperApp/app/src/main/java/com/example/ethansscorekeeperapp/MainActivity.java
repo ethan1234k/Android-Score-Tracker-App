@@ -221,20 +221,20 @@ public class MainActivity extends AppCompatActivity {
     public void setGameFragments (int numPlayers) {
         if (numPlayers == 2) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.frameLayoutFragmentPlayerNames, fragmentNamesTwoPlayer)
-                    .replace(R.id.frameLayoutFragmentScores, fragmentScoresTwoPlayer)
+                    .add(R.id.frameLayoutFragmentPlayerNames, fragmentNamesTwoPlayer)
+                    .add(R.id.frameLayoutFragmentScores, fragmentScoresTwoPlayer)
                     .commit();
         }
         if (numPlayers == 3) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.frameLayoutFragmentPlayerNames, fragmentNamesThreePlayer)
-                    .replace(R.id.frameLayoutFragmentScores, fragmentScoresThreePlayer)
+                    .add(R.id.frameLayoutFragmentPlayerNames, fragmentNamesThreePlayer)
+                    .add(R.id.frameLayoutFragmentScores, fragmentScoresThreePlayer)
                     .commit();
         }
         if (numPlayers == 4) {
             fragmentManager.beginTransaction()
-                    .replace(R.id.frameLayoutFragmentPlayerNames, fragmentNamesFourPlayer)
-                    .replace(R.id.frameLayoutFragmentScores, fragmentScoresFourPlayer)
+                    .add(R.id.frameLayoutFragmentPlayerNames, fragmentNamesFourPlayer)
+                    .add(R.id.frameLayoutFragmentScores, fragmentScoresFourPlayer)
                     .commit();
         }
     }
@@ -405,12 +405,12 @@ public class MainActivity extends AppCompatActivity {
         saveGameToFile(this);
         setContentView(R.layout.home_screen);
         //Resets all variables and lists
+        setGameListRecyclerView();
+        detachFragments(game.getNumPlayers());
         game = new Game();
         roundList = new ArrayList<>();
         playerNameList = new ArrayList<>();
         gameNum = -1;
-        setGameListRecyclerView();
-        detachFragments(game.getNumPlayers());
     }
 
     public void prepareGameForSave() {
