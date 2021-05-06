@@ -29,10 +29,29 @@
         android:clickable="true"
         app:srcCompat="@drawable/ic_add"
         tools:ignore="VectorDrawableCompat"
+        android:backgroundTint="@color/white"
+        app:backgroundTint="@color/grey"
+        app:borderWidth="2dp"
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:layout_marginBottom="15dp"
         android:layout_marginRight="15dp"
         android:onClick="onNewGameClick"/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/helpButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:clickable="true"
+        app:srcCompat="@drawable/ic_questions_mark"
+        tools:ignore="VectorDrawableCompat"
+        android:backgroundTint="@color/white"
+        app:backgroundTint="@color/grey"
+        app:borderWidth="2dp"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="15dp"
+        android:onClick="onHelpClick" />
 
 </RelativeLayout>

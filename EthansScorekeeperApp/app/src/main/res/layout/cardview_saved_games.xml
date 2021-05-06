@@ -34,7 +34,7 @@
             app:srcCompat="@drawable/ic_delete"
             android:layout_height="wrap_content"
             android:backgroundTint="@color/white"
-            app:backgroundTint="@color/white"
+            app:backgroundTint="@color/grey"
             app:borderWidth="2dp"
             android:clickable="true"
             tools:ignore="VectorDrawableCompat"

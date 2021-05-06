@@ -5,12 +5,16 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
@@ -28,6 +32,8 @@ import java.util.List;
 
 // comments
 public class MainActivity extends AppCompatActivity {
+
+
 
     int numWelcomeButtonClicks = 0;
 
@@ -74,6 +80,8 @@ public class MainActivity extends AppCompatActivity {
 
 
         setContentView(R.layout.home_screen);
+
+
         setGameListRecyclerView();
         //setContentView(R.layout.score_table_recycler_view);
 
@@ -115,6 +123,39 @@ public class MainActivity extends AppCompatActivity {
         //txtAppDescription.setText("Welcome to the Universal Scorekeep app. You can use this app to keep track of anything you desire.");
 
     }
+
+    public void setupUI(View view) {
+        // Set up touch listener for non-text box views to hide keyboard.
+        if (!(view instanceof EditText)) {
+            view.setOnTouchListener(new View.OnTouchListener() {
+                public boolean onTouch(View v, MotionEvent event) {
+                    hideSoftKeyboard(MainActivity.this);
+                    return false;
+                }
+            });
+        }
+
+        //If a layout container, iterate over children and seed recursion.
+        if (view instanceof ViewGroup) {
+            for (int i = 0; i < ((ViewGroup) view).getChildCount(); i++) {
+                View innerView = ((ViewGroup) view).getChildAt(i);
+                setupUI(innerView);
+            }
+        }
+    }
+
+    public static void hideSoftKeyboard(Activity activity) {
+        InputMethodManager inputMethodManager =
+                (InputMethodManager) activity.getSystemService(
+                        Activity.INPUT_METHOD_SERVICE);
+        if(inputMethodManager.isAcceptingText()){
+            inputMethodManager.hideSoftInputFromWindow(
+                    activity.getCurrentFocus().getWindowToken(),
+                    0
+            );
+        }
+    }
+
 
     public void onStop() {
         gameList.save(this);
@@ -167,6 +208,7 @@ public class MainActivity extends AppCompatActivity {
         setGameFragments(game.getNumPlayers());
         roundList = game.getRoundList();
         setContentView(R.layout.score_table_recycler_view);
+        setupUI(findViewById(R.id.rvScoresParent));
         setScoresRecyclerViewLayout();
         playerNameList = game.getPlayerNameList();
         initializeGameTotalScoresList(game.getNumPlayers());
@@ -184,6 +226,7 @@ public class MainActivity extends AppCompatActivity {
     //Method that initializes the program for two players
     public void twoPlayersSelected() {
         setContentView(R.layout.score_table_recycler_view);
+        setupUI(findViewById(R.id.rvScoresParent));
         game.setNumPlayers(2);
 
         initializePlayerNameList(2);
@@ -196,6 +239,7 @@ public class MainActivity extends AppCompatActivity {
     //Method that initializes the program for three players
     public void threePlayersSelected() {
         setContentView(R.layout.score_table_recycler_view);
+        setupUI(findViewById(R.id.rvScoresParent));
         game.setNumPlayers(3);
 
         initializePlayerNameList(3);
@@ -208,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
     //Method that initializes the program for four players
     public void fourPlayersSelected() {
         setContentView(R.layout.score_table_recycler_view);
+        setupUI(findViewById(R.id.rvScoresParent));
         game.setNumPlayers(4);
 
         initializePlayerNameList(4);
@@ -239,7 +284,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    //Method that
+    //Method that gets the correct fragment and sets the player names for the fragment
     public void setPlayerNames(int numPlayers, List<String> playerNameList) {
         if (numPlayers == 2) {
             fragmentNamesTwoPlayer.setPlayerNames(playerNameList);
@@ -449,7 +494,22 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Method that brings up an alert dialog which tells the user about the app
+    public void onHelpClick(View view) {
+        AlertDialog.Builder helpDialogBuilder = new AlertDialog.Builder(this);
+        helpDialogBuilder.setMessage("This app allows you to track the scores of games for 2-4 players. You can also save a game that is currently in progress if you don't finish. When you load up the app, there is a list of your saved games, where you can load and resume them. Click the plus button to start a new game, use the delete button next to any saved games to delete that saved game, or resume one of your saved games.");
+        helpDialogBuilder.setCancelable(true);
 
+        helpDialogBuilder.setPositiveButton(
+                "Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        dialog.cancel();
+                    }
+                });
+        AlertDialog alertSaveName = helpDialogBuilder.create();
+        alertSaveName.show();
+    }
 
     //TODO end of new code with recycler view
 
