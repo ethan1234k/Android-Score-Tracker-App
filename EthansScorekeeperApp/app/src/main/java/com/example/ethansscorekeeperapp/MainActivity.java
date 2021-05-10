@@ -10,6 +10,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
+import android.text.InputFilter;
 import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
@@ -32,7 +33,6 @@ import java.util.List;
 
 // comments
 public class MainActivity extends AppCompatActivity {
-
 
 
     int numWelcomeButtonClicks = 0;
@@ -78,49 +78,9 @@ public class MainActivity extends AppCompatActivity {
         //Use AlertDialog for saving the game to replace the save screen
         //TODO
 
-
         setContentView(R.layout.home_screen);
 
-
         setGameListRecyclerView();
-        //setContentView(R.layout.score_table_recycler_view);
-
-
-
-        //roundList.add(new Round("Round 1",0, 0));
-        //game.setRoundList(roundList);
-
-        /*
-        roundList.add(new Round("Round 2", 7, 3));
-        roundList.add(new Round("Round 3", 4, 0));
-        roundList.add(new Round("Round 4", 2, 5));
-        roundList.add(new Round("Round 5", 6, 1));
-        roundList.add(new Round("Round 6", 2, 4));
-        roundList.add(new Round("Round 7",1, 4));
-        roundList.add(new Round("Round 8", 7, 3));
-        roundList.add(new Round("Round 9", 4, 0));
-        roundList.add(new Round("Round 10", 2, 5));
-        roundList.add(new Round("Round 11", 6, 1));
-        roundList.add(new Round("Round 12", 2, 4));
-         */
-
-
-
-        /*
-        RecyclerView myRecyclerView = (RecyclerView) findViewById(R.id.recyclerView);
-        myRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        RecyclerViewAdapter myAdapter = new RecyclerViewAdapter(this, roundList);
-        //myRecyclerView.setLayoutManager(new GridLayoutManager(this, 3));
-        myRecyclerView.setAdapter(myAdapter);
-         */
-
-
-
-        //TextView txtAppName = findViewById(R.id.appName);
-        //txtAppName.setText("Universal Scorekeeper");
-
-        //TextView txtAppDescription = findViewById(R.id.appDescription);
-        //txtAppDescription.setText("Welcome to the Universal Scorekeep app. You can use this app to keep track of anything you desire.");
 
     }
 
@@ -148,7 +108,7 @@ public class MainActivity extends AppCompatActivity {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
                         Activity.INPUT_METHOD_SERVICE);
-        if(inputMethodManager.isAcceptingText()){
+        if (inputMethodManager.isAcceptingText()) {
             inputMethodManager.hideSoftInputFromWindow(
                     activity.getCurrentFocus().getWindowToken(),
                     0
@@ -168,15 +128,15 @@ public class MainActivity extends AppCompatActivity {
 
     public void createSetNumPlayersDialog() {
         AlertDialog.Builder numPlayersBuilder = new AlertDialog.Builder(this);
-        numPlayersBuilder.setTitle("How Many Players?");
-        String[] playerNums = {"Two", "Three", "Four"};
+        numPlayersBuilder.setTitle(this.getResources().getString(R.string.how_many_players));
+        String[] playerNums = {this.getResources().getString(R.string.two), this.getResources().getString(R.string.three), this.getResources().getString(R.string.four)};
         int checkedItem = 0;
         numPlayersBuilder.setSingleChoiceItems(playerNums, checkedItem, null);
         numPlayersBuilder.setPositiveButton(
-                "Confirm",
+                this.getResources().getString(R.string.confirm),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
-                        int selectedPosition = ((AlertDialog)dialog).getListView().getCheckedItemPosition();
+                        int selectedPosition = ((AlertDialog) dialog).getListView().getCheckedItemPosition();
                         if (selectedPosition == 0) {
                             twoPlayersSelected();
                         }
@@ -191,7 +151,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         numPlayersBuilder.setNegativeButton(
-                "Cancel",
+                this.getResources().getString(R.string.cancel),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -263,7 +223,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method that takes the number of players in the game, and correctly sets the fragments for the score table UI
-    public void setGameFragments (int numPlayers) {
+    public void setGameFragments(int numPlayers) {
         if (numPlayers == 2) {
             fragmentManager.beginTransaction()
                     .add(R.id.frameLayoutFragmentPlayerNames, fragmentNamesTwoPlayer)
@@ -298,34 +258,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     //Method that sets the initial player names
-    public void initializePlayerNameList (int players) {
+    public void initializePlayerNameList(int players) {
         if (players > 1) {
-            playerNameList.add("Player 1");
-            playerNameList.add("Player 2");
+            playerNameList.add(this.getResources().getString(R.string.player_one));
+            playerNameList.add(this.getResources().getString(R.string.player_two));
         }
         if (players > 2) {
-            playerNameList.add("Player 3");
+            playerNameList.add(this.getResources().getString(R.string.player_three));
         }
         if (players > 3) {
-            playerNameList.add("Player 4");
+            playerNameList.add(this.getResources().getString(R.string.player_four));
         }
         game.setPlayerNameList(playerNameList);
     }
 
     //Method that sets the initial totalScoresList with 0's
-    public void initializeGameTotalScoresList (int players) {
+    public void initializeGameTotalScoresList(int players) {
         for (int i = 0; i < players; i++) {
             scoreList.add(0);
         }
     }
 
     //Method that sets up the first round in the score table
-    public void initializeFirstRound (int players) {
+    public void initializeFirstRound(int players) {
         List<Integer> initializeRound = new ArrayList<>();
         for (int i = 0; i < players; i++) {
             initializeRound.add(0);
         }
-        roundList.add(new Round("Round 1", initializeRound));
+        roundList.add(new Round(this.getResources().getString(R.string.round) + " 1", initializeRound));
     }
 
     public void setGameListRecyclerView() {
@@ -339,16 +299,16 @@ public class MainActivity extends AppCompatActivity {
     public void setScoresRecyclerViewLayout() {
         myScoresRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewScores);
         myScoresRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-        myScoresRecyclerViewAdapter = new ScoresRecyclerViewAdapter(this, roundList,this , game.getNumPlayers());
+        myScoresRecyclerViewAdapter = new ScoresRecyclerViewAdapter(this, roundList, this, game.getNumPlayers());
         myScoresRecyclerView.setAdapter(myScoresRecyclerViewAdapter);
     }
 
     //Method that gets called when the user adds a new row
     public void onAddRowClick(View view) {
         String lastRound = roundList.get(roundList.size() - 1).roundNum;
-        int lastRoundNum = Integer.parseInt(lastRound.substring(6));
+        int lastRoundNum = Integer.parseInt(lastRound.substring(lastRound.indexOf(" ") + 1));
         lastRoundNum++;
-        String currentRound = "Round " + lastRoundNum;
+        String currentRound = this.getResources().getString(R.string.round) + " " + lastRoundNum;
         List<Integer> initializeRound = new ArrayList<>();
 
         for (int i = 0; i < game.getNumPlayers(); i++) {
@@ -385,7 +345,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public int getColumnTotalScore (List<Round> roundList, int column) {
+    public int getColumnTotalScore(List<Round> roundList, int column) {
         int total = 0;
 
         for (int i = 0; i < roundList.size(); i++) {
@@ -417,12 +377,16 @@ public class MainActivity extends AppCompatActivity {
     public void createSaveGameDialog() {
         AlertDialog.Builder saveNameBuilder = new AlertDialog.Builder(this);
         final EditText gameName = new EditText(this);
-        saveNameBuilder.setMessage("Enter Game Name Below");
+        if (gameNum > -1) {
+            gameName.setText(game.getGameName());
+        }
+        int maxLength = 10;
+        gameName.setFilters(new InputFilter[]{new InputFilter.LengthFilter(maxLength)});
+        saveNameBuilder.setMessage(this.getResources().getString(R.string.enter_game));
         saveNameBuilder.setView(gameName);
         saveNameBuilder.setCancelable(true);
-
         saveNameBuilder.setPositiveButton(
-                "Confirm",
+                this.getResources().getString(R.string.confirm),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         if (gameName.getText().length() != 0) {
@@ -433,7 +397,7 @@ public class MainActivity extends AppCompatActivity {
                 });
 
         saveNameBuilder.setNegativeButton(
-                "Cancel",
+                this.getResources().getString(R.string.cancel),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -444,7 +408,7 @@ public class MainActivity extends AppCompatActivity {
         alertSaveName.show();
     }
 
-    public void saveConfirmation (String gameName) {
+    public void saveConfirmation(String gameName) {
         game.setGameName(String.valueOf(gameName));
         prepareGameForSave();
         saveGameToFile(this);
@@ -465,7 +429,7 @@ public class MainActivity extends AppCompatActivity {
         game.setGameDate(d);
     }
 
-    public void saveGameToFile (Context context) {
+    public void saveGameToFile(Context context) {
         if (gameNum == -1) {
             gameList.addSavedGame(game);
         } else {
@@ -497,11 +461,11 @@ public class MainActivity extends AppCompatActivity {
     //Method that brings up an alert dialog which tells the user about the app
     public void onHelpClick(View view) {
         AlertDialog.Builder helpDialogBuilder = new AlertDialog.Builder(this);
-        helpDialogBuilder.setMessage("This app allows you to track the scores of games for 2-4 players. You can also save a game that is currently in progress if you don't finish. When you load up the app, there is a list of your saved games, where you can load and resume them. Click the plus button to start a new game, use the delete button next to any saved games to delete that saved game, or resume one of your saved games.");
+        helpDialogBuilder.setMessage(this.getResources().getString(R.string.help_text));
         helpDialogBuilder.setCancelable(true);
 
         helpDialogBuilder.setPositiveButton(
-                "Ok",
+                this.getResources().getString(R.string.ok),
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int id) {
                         dialog.cancel();
@@ -510,118 +474,4 @@ public class MainActivity extends AppCompatActivity {
         AlertDialog alertSaveName = helpDialogBuilder.create();
         alertSaveName.show();
     }
-
-    //TODO end of new code with recycler view
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    public void onBtnClick (View view) {
-        if (numWelcomeButtonClicks == 0) {
-            TextView txtAppDescription = findViewById(R.id.appDescription);
-            txtAppDescription.setText("You can enter in your scores for each round in the table, and the total score will be displayed at the bottom of the screen.");
-            Button welcomeButton = findViewById(R.id.welcomeButton);
-            welcomeButton.setText("Finish");
-            numWelcomeButtonClicks ++;
-        } else {
-            Button welcomeButton = findViewById(R.id.welcomeButton);
-            setContentView(R.layout.score_table);
-
-            //TODO Create a new method for setting all the text for the TextViews
-
-
-            TextView txtPlayerOne = findViewById(R.id.playerOneName);
-            txtPlayerOne.setText("Player 1");
-
-            TextView txtPlayerTwo = findViewById(R.id.playerTwoName);
-            txtPlayerTwo.setText("Player 2");
-
-            TextView txtTotalScoreOne = findViewById(R.id.totalScoreLeft);
-            txtTotalScoreOne.setText(Integer.toString(totalScoreLeft));
-
-            TextView txtTotalScoreTwo = findViewById(R.id.totalScoreRight);
-            txtTotalScoreTwo.setText(Integer.toString(totalScoreRight));
-
-            TextView txtRoundOne = findViewById(R.id.roundOne);
-            txtRoundOne.setText("Round 1");
-
-            TextView txtRoundTwo = findViewById(R.id.roundTwo);
-            txtRoundTwo.setText("Round 2");
-
-            //setEditTexts();
-
-        }
-    }
-
-    /*
-    public void setEditTexts() {
-        EditText edtTxtLeftScoreOne = findViewById(R.id.leftScoreOne);
-        EditText edtTxtLeftScoreTwo = findViewById(R.id.leftScoreTwo);
-        EditText edtTxtRightScoreOne = findViewById(R.id.rightScoreOne);
-        EditText edtTxtRightScoreTwo = findViewById(R.id.rightScoreTwo);
-
-        edtTxtLeftScoreOne.addTextChangedListener(textWatcher);
-        edtTxtLeftScoreTwo.addTextChangedListener(textWatcher);
-        edtTxtRightScoreOne.addTextChangedListener(textWatcher);
-        edtTxtRightScoreTwo.addTextChangedListener(textWatcher);
-
-    } */
-
-    public void setTotalScores() {
-        EditText edtTxtLeftScoreOne = findViewById(R.id.leftScoreOne);
-        EditText edtTxtLeftScoreTwo = findViewById(R.id.leftScoreTwo);
-        EditText edtTxtRightScoreOne = findViewById(R.id.rightScoreOne);
-        EditText edtTxtRightScoreTwo = findViewById(R.id.rightScoreTwo);
-
-
-        totalScoreLeft = totalScores(edtTxtLeftScoreOne.getText().toString(), edtTxtLeftScoreTwo.getText().toString());
-        totalScoreRight = totalScores(edtTxtRightScoreOne.getText().toString(), edtTxtRightScoreTwo.getText().toString());
-
-        TextView txtTotalScoreOne = findViewById(R.id.totalScoreLeft);
-        txtTotalScoreOne.setText(Integer.toString(totalScoreLeft));
-
-        TextView txtTotalScoreTwo = findViewById(R.id.totalScoreRight);
-        txtTotalScoreTwo.setText(Integer.toString(totalScoreRight));
-    }
-
-    //Method that takes to strings, if they are an int it adds them up to the total score
-    public int totalScores(String firstScore, String secondScore) {
-        int totalScore = 0;
-        if (isInteger(firstScore)) {
-            totalScore += Integer.parseInt(firstScore);
-        }
-
-        if (isInteger(secondScore)) {
-            totalScore += Integer.parseInt(secondScore);
-        }
-        return totalScore;
-    }
-
-    //Method that checks if a string is an Integer
-    public static boolean isInteger(String s) {
-        try {
-            Integer.parseInt(s);
-        } catch(NumberFormatException e) {
-            return false;
-        } catch(NullPointerException e) {
-            return false;
-        }
-        // only got here if we didn't return false
-        return true;
-    }
-
 }

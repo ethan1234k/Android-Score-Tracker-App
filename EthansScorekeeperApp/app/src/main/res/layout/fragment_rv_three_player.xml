@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            android:text="Player 1"
+            android:text="@string/player_one"
             android:textAlignment="center"
             tools:ignore="RtlCompat"
             android:selectAllOnFocus="true"/>
@@ -30,7 +30,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            android:text="Player 2"
+            android:text="@string/player_two"
             android:textAlignment="center"
             tools:ignore="RtlCompat"
             android:selectAllOnFocus="true"/>
@@ -40,7 +40,7 @@
             android:layout_width="0dp"
             android:layout_weight="2"
             android:layout_height="match_parent"
-            android:text="Player 3"
+            android:text="@string/player_three"
             android:textAlignment="center"
             tools:ignore="RtlCompat"
             android:selectAllOnFocus="true"/>

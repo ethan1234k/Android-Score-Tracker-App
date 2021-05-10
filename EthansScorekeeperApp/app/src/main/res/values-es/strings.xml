@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="help_text">Esta aplicación te permite realizar un seguimiento de las puntuaciones de los juegos de 2-4 jugadores. También puede guardar un juego que esté en curso si no termina. Al cargar la aplicación, hay una lista de los juegos guardados, donde puede cargarlos y reanudarlos. Haga clic en el botón más para iniciar un nuevo juego, utilice el botón de eliminación situado junto a cualquier juego guardado para eliminar el juego guardado o reanudar uno de los juegos guardados.</string>
+    <string name="save">Ahorrar</string>
+    <string name="add_row">Agregar fila</string>
+    <string name="enter_game">Introduzca el nombre del juego a continuación</string>
+    <string name="confirm">Confirmar</string>
+    <string name="cancel">Cancelar</string>
+    <string name="two">Dos</string>
+    <string name="three">Tres</string>
+    <string name="four">Cuatro</string>
+    <string name="how_many_players">¿Cuántos jugadores?</string>
+    <string name="player_one">Jugador 1</string>
+    <string name="player_two">Jugador 2</string>
+    <string name="player_three">Jugador 3</string>
+    <string name="player_four">Jugador 4</string>
+    <string name="total_one">Total 1</string>
+    <string name="total_two">Total 2</string>
+    <string name="total_four">Total 4</string>
+    <string name="total_three">Total 3</string>
+    <string name="total">Total</string>
+    <string name="round">Redondo</string>
+    <string name="ok">Ok</string>
+</resources>

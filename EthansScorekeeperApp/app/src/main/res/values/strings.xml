@@ -1,5 +1,24 @@
 <resources>
-    <string name="app_name">Ethan\'s Scorekeeper App</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="app_name" translatable="false">Net Scoretracker</string>
+    <string name="help_text">"This app allows you to track the scores of games for 2-4 players. You can also save a game that is currently in progress if you don't finish. When you load up the app, there is a list of your saved games, where you can load and resume them. Click the plus button to start a new game, use the delete button next to any saved games to delete that saved game, or resume one of your saved games.</string>
+    <string name="save">Save</string>
+    <string name="add_row">Add Row</string>
+    <string name="enter_game">Enter Game Name Below</string>
+    <string name="confirm">Confirm</string>
+    <string name="cancel">Cancel</string>
+    <string name="two">Two</string>
+    <string name="three">Three</string>
+    <string name="four">Four</string>
+    <string name="how_many_players">How Many Players?</string>
+    <string name="player_one">Player 1</string>
+    <string name="player_two">Player 2</string>
+    <string name="player_three">Player 3</string>
+    <string name="player_four">Player 4</string>
+    <string name="total_one">Total 1</string>
+    <string name="total_two">Total 2</string>
+    <string name="total_three">Total 3</string>
+    <string name="total_four">Total 4</string>
+    <string name="round">Round</string>
+    <string name="total">Total</string>
+    <string name="ok">Ok</string>
 </resources>
