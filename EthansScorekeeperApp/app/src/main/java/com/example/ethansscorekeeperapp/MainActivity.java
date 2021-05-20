@@ -26,6 +26,11 @@ import com.example.ethansscorekeeperapp.fragments.fragmentNamesTwoPlayer;
 import com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer;
 import com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer;
 import com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer;
+import com.google.android.gms.ads.AdRequest;
+import com.google.android.gms.ads.AdView;
+import com.google.android.gms.ads.MobileAds;
+import com.google.android.gms.ads.initialization.InitializationStatus;
+import com.google.android.gms.ads.initialization.OnInitializationCompleteListener;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -33,12 +38,6 @@ import java.util.List;
 
 // comments
 public class MainActivity extends AppCompatActivity {
-
-
-    int numWelcomeButtonClicks = 0;
-
-    int totalScoreLeft = 0;
-    int totalScoreRight = 0;
 
     //Initialization for necessary ArrayLists
     List<Round> roundList = new ArrayList<>();
@@ -66,22 +65,34 @@ public class MainActivity extends AppCompatActivity {
 
     int gameNum = -1;
 
+    private AdView mAdView;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         gameList = GameList.load(this);
         if (gameList == null) {
             gameList = new GameList();
         }
 
-        //TODO
-        //Use AlertDialog for saving the game to replace the save screen
-        //TODO
-
         setContentView(R.layout.home_screen);
 
+        initializeBannerAds();
         setGameListRecyclerView();
+    }
 
+    public void initializeBannerAds() {
+        MobileAds.initialize(this, new OnInitializationCompleteListener() {
+            @Override
+            public void onInitializationComplete(InitializationStatus initializationStatus) {
+            }
+        });
+
+        mAdView = findViewById(R.id.adView);
+        AdRequest adRequest = new AdRequest.Builder().build();
+        mAdView.loadAd(adRequest);
     }
 
     public void setupUI(View view) {
@@ -413,6 +424,7 @@ public class MainActivity extends AppCompatActivity {
         prepareGameForSave();
         saveGameToFile(this);
         setContentView(R.layout.home_screen);
+        initializeBannerAds();
         //Resets all variables and lists
         setGameListRecyclerView();
         detachFragments(game.getNumPlayers());

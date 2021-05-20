@@ -40,6 +40,9 @@ dependencies {
     //noinspection GradleCompatible
     implementation 'com.android.support:design:28.0.0'
 
+    // Ads Library
+    implementation 'com.google.android.gms:play-services-ads:20.1.0'
+
     //Defines fragment
     def fragment_version = "1.3.2"
     implementation "androidx.fragment:fragment:$fragment_version"
