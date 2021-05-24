@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp.fragments;
+package com.woodhill.ethansscorekeeperapp.fragments;
 
 import android.os.Bundle;
 
@@ -9,8 +9,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import com.example.ethansscorekeeperapp.MainActivity;
-import com.example.ethansscorekeeperapp.R;
+import com.woodhill.ethansscorekeeperapp.MainActivity;
+import com.woodhill.ethansscorekeeperapp.R;
 
 import java.util.ArrayList;
 import java.util.List;

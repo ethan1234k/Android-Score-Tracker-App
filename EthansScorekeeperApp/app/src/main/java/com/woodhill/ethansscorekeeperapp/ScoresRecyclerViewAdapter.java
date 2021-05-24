@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp;
+package com.woodhill.ethansscorekeeperapp;
 
 import android.content.Context;
 import android.text.Editable;

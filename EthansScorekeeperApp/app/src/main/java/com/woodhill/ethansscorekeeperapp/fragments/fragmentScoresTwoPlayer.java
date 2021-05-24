@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp.fragments;
+package com.woodhill.ethansscorekeeperapp.fragments;
 
 import android.os.Bundle;
 
@@ -7,39 +7,30 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.EditText;
+import android.widget.TextView;
 
-import com.example.ethansscorekeeperapp.MainActivity;
-import com.example.ethansscorekeeperapp.R;
-
-import java.util.ArrayList;
-import java.util.List;
+import com.woodhill.ethansscorekeeperapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragmentNamesTwoPlayer#newInstance} factory method to
+ * Use the {@link fragmentScoresTwoPlayer#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragmentNamesTwoPlayer extends Fragment {
+public class fragmentScoresTwoPlayer extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-    EditText playerOneName;
-    EditText playerTwoName;
-    MainActivity main;
+    TextView totalScoreOne;
+    TextView totalScoreTwo;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public fragmentNamesTwoPlayer() {
+    public fragmentScoresTwoPlayer() {
         // Required empty public constructor
-    }
-
-    public fragmentNamesTwoPlayer(MainActivity main) {
-        this.main = main;
     }
 
     /**
@@ -48,11 +39,11 @@ public class fragmentNamesTwoPlayer extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragmentRVTwoPlayer.
+     * @return A new instance of fragment fragmentScoresTwoPlayer.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragmentNamesTwoPlayer newInstance(String param1, String param2) {
-        fragmentNamesTwoPlayer fragment = new fragmentNamesTwoPlayer();
+    public static fragmentScoresTwoPlayer newInstance(String param1, String param2) {
+        fragmentScoresTwoPlayer fragment = new fragmentScoresTwoPlayer();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -71,27 +62,23 @@ public class fragmentNamesTwoPlayer extends Fragment {
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
-        playerOneName = getView().findViewById(R.id.playerOneName);
-        playerTwoName = getView().findViewById(R.id.playerTwoName);
-        main.callSetPlayerNames();
+        totalScoreOne = getView().findViewById(R.id.totalScoreOne);
+        totalScoreTwo = getView().findViewById(R.id.totalScoreTwo);
     }
 
-    public List<String> getPlayerNames () {
-        List<String> nameList = new ArrayList<>();
-        nameList.add(String.valueOf(playerOneName.getText()));
-        nameList.add(String.valueOf(playerTwoName.getText()));
-        return nameList;
-    }
-
-    public void setPlayerNames (List<String> nameList) {
-        playerOneName.setText(nameList.get(0));
-        playerTwoName.setText(nameList.get(1));
+    public void setScores(int scoreOne, int scoreTwo) {
+        try {
+            totalScoreOne.setText(String.valueOf(scoreOne));
+            totalScoreTwo.setText(String.valueOf(scoreTwo));
+        } catch(NullPointerException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_rv_two_player, container, false);
+        return inflater.inflate(R.layout.fragment_scores_two_player, container, false);
     }
 }

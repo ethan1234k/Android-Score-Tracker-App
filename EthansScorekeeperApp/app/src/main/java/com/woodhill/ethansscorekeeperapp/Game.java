@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp;
+package com.woodhill.ethansscorekeeperapp;
 
 import java.util.ArrayList;
 import java.util.Date;

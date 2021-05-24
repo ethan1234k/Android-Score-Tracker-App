@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp;
+package com.woodhill.ethansscorekeeperapp;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
@@ -11,21 +11,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.text.InputFilter;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
 
-import com.example.ethansscorekeeperapp.fragments.fragmentNamesFourPlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentNamesThreePlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentNamesTwoPlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer;
-import com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer;
+import com.woodhill.ethansscorekeeperapp.fragments.fragmentNamesFourPlayer;
+import com.woodhill.ethansscorekeeperapp.fragments.fragmentNamesThreePlayer;
+import com.woodhill.ethansscorekeeperapp.fragments.fragmentNamesTwoPlayer;
+import com.woodhill.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer;
+import com.woodhill.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer;
+import com.woodhill.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer;
 import com.google.android.gms.ads.AdRequest;
 import com.google.android.gms.ads.AdView;
 import com.google.android.gms.ads.MobileAds;
@@ -47,12 +44,12 @@ public class MainActivity extends AppCompatActivity {
 
     //Initialization statements for fragmentManager and fragments
     FragmentManager fragmentManager = getSupportFragmentManager();
-    fragmentNamesTwoPlayer fragmentNamesTwoPlayer = new fragmentNamesTwoPlayer(this);
-    fragmentNamesThreePlayer fragmentNamesThreePlayer = new fragmentNamesThreePlayer(this);
-    fragmentNamesFourPlayer fragmentNamesFourPlayer = new fragmentNamesFourPlayer(this);
-    com.example.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer fragmentScoresTwoPlayer = new fragmentScoresTwoPlayer();
-    com.example.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer fragmentScoresThreePlayer = new fragmentScoresThreePlayer();
-    com.example.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer fragmentScoresFourPlayer = new fragmentScoresFourPlayer();
+    com.woodhill.ethansscorekeeperapp.fragments.fragmentNamesTwoPlayer fragmentNamesTwoPlayer = new fragmentNamesTwoPlayer(this);
+    com.woodhill.ethansscorekeeperapp.fragments.fragmentNamesThreePlayer fragmentNamesThreePlayer = new fragmentNamesThreePlayer(this);
+    com.woodhill.ethansscorekeeperapp.fragments.fragmentNamesFourPlayer fragmentNamesFourPlayer = new fragmentNamesFourPlayer(this);
+    com.woodhill.ethansscorekeeperapp.fragments.fragmentScoresTwoPlayer fragmentScoresTwoPlayer = new fragmentScoresTwoPlayer();
+    com.woodhill.ethansscorekeeperapp.fragments.fragmentScoresThreePlayer fragmentScoresThreePlayer = new fragmentScoresThreePlayer();
+    com.woodhill.ethansscorekeeperapp.fragments.fragmentScoresFourPlayer fragmentScoresFourPlayer = new fragmentScoresFourPlayer();
 
     ScoresRecyclerViewAdapter myScoresRecyclerViewAdapter;
     RecyclerView myScoresRecyclerView;

@@ -1,4 +1,4 @@
-package com.example.ethansscorekeeperapp.fragments;
+package com.woodhill.ethansscorekeeperapp.fragments;
 
 import android.os.Bundle;
 
@@ -9,14 +9,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.example.ethansscorekeeperapp.R;
+import com.woodhill.ethansscorekeeperapp.R;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link fragmentScoresTwoPlayer#newInstance} factory method to
+ * Use the {@link fragmentScoresThreePlayer#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class fragmentScoresTwoPlayer extends Fragment {
+public class fragmentScoresThreePlayer extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -24,12 +24,13 @@ public class fragmentScoresTwoPlayer extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     TextView totalScoreOne;
     TextView totalScoreTwo;
+    TextView totalScoreThree;
 
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
-    public fragmentScoresTwoPlayer() {
+    public fragmentScoresThreePlayer() {
         // Required empty public constructor
     }
 
@@ -39,11 +40,11 @@ public class fragmentScoresTwoPlayer extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment fragmentScoresTwoPlayer.
+     * @return A new instance of fragment fragmentScoresThreePlayer.
      */
     // TODO: Rename and change types and number of parameters
-    public static fragmentScoresTwoPlayer newInstance(String param1, String param2) {
-        fragmentScoresTwoPlayer fragment = new fragmentScoresTwoPlayer();
+    public static fragmentScoresThreePlayer newInstance(String param1, String param2) {
+        fragmentScoresThreePlayer fragment = new fragmentScoresThreePlayer();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -64,13 +65,15 @@ public class fragmentScoresTwoPlayer extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         totalScoreOne = getView().findViewById(R.id.totalScoreOne);
         totalScoreTwo = getView().findViewById(R.id.totalScoreTwo);
+        totalScoreThree = getView().findViewById(R.id.totalScoreThree);
     }
 
-    public void setScores(int scoreOne, int scoreTwo) {
+    public void setScores(int scoreOne, int scoreTwo, int scoreThree) {
         try {
             totalScoreOne.setText(String.valueOf(scoreOne));
             totalScoreTwo.setText(String.valueOf(scoreTwo));
-        } catch(NullPointerException e) {
+            totalScoreThree.setText(String.valueOf(scoreThree));
+        } catch (NullPointerException e) {
             e.printStackTrace();
         }
     }
@@ -79,6 +82,6 @@ public class fragmentScoresTwoPlayer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_scores_two_player, container, false);
+        return inflater.inflate(R.layout.fragment_scores_three_player, container, false);
     }
 }
