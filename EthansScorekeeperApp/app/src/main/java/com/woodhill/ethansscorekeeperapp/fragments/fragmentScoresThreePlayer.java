@@ -18,15 +18,12 @@ import com.woodhill.ethansscorekeeperapp.R;
  */
 public class fragmentScoresThreePlayer extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView totalScoreOne;
     TextView totalScoreTwo;
     TextView totalScoreThree;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -34,15 +31,6 @@ public class fragmentScoresThreePlayer extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragmentScoresThreePlayer.
-     */
-    // TODO: Rename and change types and number of parameters
     public static fragmentScoresThreePlayer newInstance(String param1, String param2) {
         fragmentScoresThreePlayer fragment = new fragmentScoresThreePlayer();
         Bundle args = new Bundle();
@@ -61,13 +49,14 @@ public class fragmentScoresThreePlayer extends Fragment {
         }
     }
 
-    @Override
+    //Sets the text fields
     public void onViewCreated(View view, Bundle savedInstanceState) {
         totalScoreOne = getView().findViewById(R.id.totalScoreOne);
         totalScoreTwo = getView().findViewById(R.id.totalScoreTwo);
         totalScoreThree = getView().findViewById(R.id.totalScoreThree);
     }
 
+    //Takes in scores and sets the text fields to those scores
     public void setScores(int scoreOne, int scoreTwo, int scoreThree) {
         try {
             totalScoreOne.setText(String.valueOf(scoreOne));

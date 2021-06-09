@@ -18,9 +18,10 @@ public class GameList implements Serializable{
     ArrayList<Game> gameList = new ArrayList<>();
 
     public GameList() {
-
+        //Empty Constructor
     }
 
+    //Below: Getters and Setters
     public ArrayList<Game> getGameList() {
         return gameList;
     }
@@ -37,6 +38,7 @@ public class GameList implements Serializable{
         gameList.add(game);
     }
 
+    //Uses the date time and game name to return the title for the game
     public String getGameDisplay (int index) {
         Game game = gameList.get(index);
         String gameDisplay;
@@ -53,6 +55,7 @@ public class GameList implements Serializable{
         return gameList.size();
     }
 
+    //Method to save the gamelist to a local file
     public void save (Context context) {
         try {
             File saveFile = new File(context.getFilesDir(), "gameList.gme");
@@ -65,6 +68,7 @@ public class GameList implements Serializable{
         }
     }
 
+    //Method to load the gamelist from the local file
     public static GameList load (Context context) {
         GameList gameList = null;
 
@@ -80,6 +84,7 @@ public class GameList implements Serializable{
         return gameList;
     }
 
+    //Deletes a game from the gamelist
     public void deleteGame(int index) {
         gameList.remove(index);
     }

@@ -21,6 +21,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
     private MainActivity mMainActivity;
     int players;
 
+    //Setter for the scores recycler view
     public ScoresRecyclerViewAdapter(Context mContext, List<Round> mData, MainActivity mMainActivity, int players) {
         this.mContext = mContext;
         this.mData = mData;
@@ -28,6 +29,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
         this.players = players;
     }
 
+    //Sets the text fields when the view is created
     public ScoresViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
@@ -42,6 +44,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
     }
 
     @Override
+    //Binds the view holder
     public void onBindViewHolder(@NonNull ScoresViewHolder holder, int position) {
 
         holder.setIsRecyclable(false);
@@ -67,6 +70,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
         EditText moveScoreThree;
         EditText moveScoreFour;
 
+        //Connects the xml text fields to this file
         public ScoresViewHolder(View itemView) {
             super(itemView);
 
@@ -81,6 +85,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
             }
         }
 
+        //Sets the current row in the scores recycler view
         public void SetRow(int r)
         {
             this.row = r;
@@ -100,7 +105,7 @@ public class ScoresRecyclerViewAdapter extends RecyclerView.Adapter<ScoresRecycl
         return mData.size();
     }
 
-
+    //Text watcher that listens for when the user changes a score, then updates the total score
     public class MyTextWatcher implements TextWatcher
     {
         int round;

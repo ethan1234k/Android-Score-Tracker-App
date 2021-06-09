@@ -18,8 +18,6 @@ import com.woodhill.ethansscorekeeperapp.R;
  */
 public class fragmentScoresFourPlayer extends Fragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     TextView totalScoreOne;
@@ -27,7 +25,6 @@ public class fragmentScoresFourPlayer extends Fragment {
     TextView totalScoreThree;
     TextView totalScoreFour;
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
 
@@ -35,15 +32,6 @@ public class fragmentScoresFourPlayer extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragmentScoresFourPlayer.
-     */
-    // TODO: Rename and change types and number of parameters
     public static fragmentScoresFourPlayer newInstance(String param1, String param2) {
         fragmentScoresFourPlayer fragment = new fragmentScoresFourPlayer();
         Bundle args = new Bundle();
@@ -62,7 +50,7 @@ public class fragmentScoresFourPlayer extends Fragment {
         }
     }
 
-    @Override
+    //Connects the text fields
     public void onViewCreated(View view, Bundle savedInstanceState) {
         totalScoreOne = getView().findViewById(R.id.totalScoreOne);
         totalScoreTwo = getView().findViewById(R.id.totalScoreTwo);
@@ -70,6 +58,7 @@ public class fragmentScoresFourPlayer extends Fragment {
         totalScoreFour = getView().findViewById(R.id.totalScoreFour);
     }
 
+    //Takes in the scores and sets the texts to the scores
     public void setScores(int scoreOne, int scoreTwo, int scoreThree, int scoreFour) {
         try {
             totalScoreOne.setText(String.valueOf(scoreOne));

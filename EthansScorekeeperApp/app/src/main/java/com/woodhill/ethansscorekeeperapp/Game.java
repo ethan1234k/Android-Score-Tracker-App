@@ -13,16 +13,19 @@ public class Game implements Serializable{
     List<String> playerNameList = new ArrayList<>();
     List<Round> roundList = new ArrayList<>();
 
-    public Game () {
 
+    public Game () {
+        //Empty Constructor
     }
 
+    //Game Constructor
     public Game (int numPlayers, List<String> playerNameList, List<Round> roundList) {
         this.numPlayers = numPlayers;
         this.playerNameList = playerNameList;
         this.roundList = roundList;
     }
 
+    //Below: Getters and setters for Game Object
     public String getGameName() {
         return gameName;
     }

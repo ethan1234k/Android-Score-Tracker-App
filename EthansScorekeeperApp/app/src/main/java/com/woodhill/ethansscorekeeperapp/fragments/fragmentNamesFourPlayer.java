@@ -44,15 +44,7 @@ public class fragmentNamesFourPlayer extends Fragment {
         this.main = main;
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment fragmentRVFourPlayer.
-     */
-    // TODO: Rename and change types and number of parameters
+
     public static fragmentNamesFourPlayer newInstance(String param1, String param2) {
         fragmentNamesFourPlayer fragment = new fragmentNamesFourPlayer();
         Bundle args = new Bundle();
@@ -71,7 +63,7 @@ public class fragmentNamesFourPlayer extends Fragment {
         }
     }
 
-    @Override
+    //Sets the play name edit texts when the view is created
     public void onViewCreated(View view, Bundle savedInstanceState) {
         playerOneName = getView().findViewById(R.id.playerOneName);
         playerTwoName = getView().findViewById(R.id.playerTwoName);
@@ -80,6 +72,7 @@ public class fragmentNamesFourPlayer extends Fragment {
         main.callSetPlayerNames();
     }
 
+    //Method that returns an ArrayList of the player names
     public List<String> getPlayerNames () {
         List<String> nameList = new ArrayList<>();
         nameList.add(String.valueOf(playerOneName.getText()));
@@ -89,6 +82,7 @@ public class fragmentNamesFourPlayer extends Fragment {
         return nameList;
     }
 
+    //Sets the edit texts to the player names specified array list
     public void setPlayerNames (List<String> nameList) {
         playerOneName.setText(nameList.get(0));
         playerTwoName.setText(nameList.get(1));

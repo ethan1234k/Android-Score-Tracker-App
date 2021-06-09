@@ -74,12 +74,15 @@ public class MainActivity extends AppCompatActivity {
             gameList = new GameList();
         }
 
+        //Sets the UI to the home screen
         setContentView(R.layout.home_screen);
 
+        //Initialization methods
         initializeBannerAds();
         setGameListRecyclerView();
     }
 
+    // Creates banner ads
     public void initializeBannerAds() {
         MobileAds.initialize(this, new OnInitializationCompleteListener() {
             @Override
@@ -92,6 +95,7 @@ public class MainActivity extends AppCompatActivity {
         mAdView.loadAd(adRequest);
     }
 
+    //Method to hide the keyboard when the user clicks off
     public void setupUI(View view) {
         // Set up touch listener for non-text box views to hide keyboard.
         if (!(view instanceof EditText)) {
@@ -112,6 +116,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Method to hide the keyboard
     public static void hideSoftKeyboard(Activity activity) {
         InputMethodManager inputMethodManager =
                 (InputMethodManager) activity.getSystemService(
@@ -124,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-
+    //Saves the gamelist when the user closes the app
     public void onStop() {
         gameList.save(this);
         super.onStop();
@@ -134,6 +139,7 @@ public class MainActivity extends AppCompatActivity {
         createSetNumPlayersDialog();
     }
 
+    //Alert dialog when the use creates a new game
     public void createSetNumPlayersDialog() {
         AlertDialog.Builder numPlayersBuilder = new AlertDialog.Builder(this);
         numPlayersBuilder.setTitle(this.getResources().getString(R.string.how_many_players));
@@ -182,11 +188,13 @@ public class MainActivity extends AppCompatActivity {
         initializeGameTotalScoresList(game.getNumPlayers());
     }
 
+    //Method to delete a game from the game list
     public void deleteGame(int gameNum) {
         gameList.deleteGame(gameNum);
         setGameListRecyclerView();
     }
 
+    //Sets player names
     public void callSetPlayerNames() {
         setPlayerNames(game.getNumPlayers(), playerNameList);
     }
@@ -296,6 +304,7 @@ public class MainActivity extends AppCompatActivity {
         roundList.add(new Round(this.getResources().getString(R.string.round) + " 1", initializeRound));
     }
 
+    //Sets the game list recycler view
     public void setGameListRecyclerView() {
         myGameListRecyclerView = (RecyclerView) findViewById(R.id.recyclerViewGames);
         myGameListRecyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -332,6 +341,7 @@ public class MainActivity extends AppCompatActivity {
         myRecyclerView.setAdapter(myAdapter);
     }
 
+    //Calculates the total scores based on the number of players
     public void calculate() {
         if (game.getNumPlayers() == 2) {
             scoreList.set(0, getColumnTotalScore(roundList, 0));
@@ -353,6 +363,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Gets the total score of one specified column
     public int getColumnTotalScore(List<Round> roundList, int column) {
         int total = 0;
 
@@ -416,6 +427,7 @@ public class MainActivity extends AppCompatActivity {
         alertSaveName.show();
     }
 
+    //Method that deals with what to do when the user saves a game
     public void saveConfirmation(String gameName) {
         game.setGameName(String.valueOf(gameName));
         prepareGameForSave();
@@ -431,6 +443,7 @@ public class MainActivity extends AppCompatActivity {
         gameNum = -1;
     }
 
+    //Method that helps saveConfirmation
     public void prepareGameForSave() {
         savePlayerNames(game.getNumPlayers());
         game.setRoundList(roundList);
@@ -438,6 +451,7 @@ public class MainActivity extends AppCompatActivity {
         game.setGameDate(d);
     }
 
+    //Adds saved agme to the game list
     public void saveGameToFile(Context context) {
         if (gameNum == -1) {
             gameList.addSavedGame(game);
@@ -446,6 +460,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    //Detaches the fragments after a use saves a game
     public void detachFragments(int numPlayers) {
         if (numPlayers == 2) {
             fragmentManager.beginTransaction()

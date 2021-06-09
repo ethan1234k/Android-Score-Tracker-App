@@ -8,12 +8,13 @@ public class Round implements Serializable{
     public String roundNum;
     List<Integer> scoreList;
 
-
+    //Round setter
     public Round(String roundNum, List<Integer> scoreList){
         this.roundNum = roundNum;
         this.scoreList = scoreList;
     }
 
+    //Getters and setters
     public void setScore(List<Integer> scoreList) {
         this.scoreList = scoreList;
     }

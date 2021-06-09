@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+//Recycler view for game list
 public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameListViewHolder> {
 
     private Context mContext;
@@ -20,12 +21,14 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
     private MainActivity mMainActivity;
     int gameNum;
 
+    //Game List Adapter setter
     public GameListAdapter (Context mContext, GameList mGameList, MainActivity mMainActivity) {
         this.mContext = mContext;
         this.mGameList = mGameList;
         this.mMainActivity = mMainActivity;
     }
 
+    //Method to inflate the cardview
     public GameListViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view;
         LayoutInflater mInflater = LayoutInflater.from(mContext);
@@ -33,7 +36,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
         return new GameListViewHolder(view);
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
+    //Method to bind view holder
     public void onBindViewHolder(@NonNull GameListViewHolder holder, int position) {
         holder.setIsRecyclable(false);
         String gameText = mGameList.getGameDisplay(position);
@@ -47,6 +50,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
 
         public GameListViewHolder(View itemView) {
             super(itemView);
+            //Listens for the user to load a game, and loads the roper game
             savedGame = (Button) itemView.findViewById(R.id.savedGame_id);
             savedGame.setOnClickListener(new View.OnClickListener() {
 
@@ -59,6 +63,7 @@ public class GameListAdapter extends RecyclerView.Adapter<GameListAdapter.GameLi
                 }
             });
 
+            //Listens for an on click on the delete button, and calls the delete method
             deleteGameButton = (FloatingActionButton) itemView.findViewById(R.id.deleteGameButton_id);
             deleteGameButton.setOnClickListener(new View.OnClickListener() {
 
